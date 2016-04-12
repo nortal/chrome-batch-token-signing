@@ -19,7 +19,7 @@
 #include "RequestHandler.h"
 #include "Logger.h"
 #include "VersionInfo.h"
-#include "CertificateSelection.h"
+#include "CertificateSelectorFactory.h"
 #include "ContextMaintainer.h"
 #include "SignerFactory.h"
 #include "ProgressBar.h"
@@ -119,7 +119,8 @@ void RequestHandler::handleVersionRequest() {
 
 void RequestHandler::handleCertRequest() {
 	validateSecureOrigin();
-	string selectedCert = CertificateSelection::getCert();
+	CertificateSelector * certificateSelector = CertificateSelectorFactory::createCertificateSelector();
+	string selectedCert = certificateSelector->getCert();
 	ContextMaintainer::saveCertificate(selectedCert);
 	jsonResponse << "cert" << selectedCert;
 }
