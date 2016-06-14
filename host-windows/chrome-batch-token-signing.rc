@@ -44,7 +44,7 @@ BEGIN
 			VALUE "FileDescription", "Chrome Token Signing Native Host"
 			VALUE "FileVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
 			VALUE "InternalName", "chrome-token-signing-mass"
-			VALUE "LegalCopyright", "Copyright (C) 2015 Estonian Information System Authority"
+			VALUE "LegalCopyright", "Copyright (C) 2015-2016 Estonian Information System Authority"
 			VALUE "OriginalFilename", "chrome-token-signing-mass.exe"
 			VALUE "ProductName", "Chrome Token Signing Native Host"
 			VALUE "ProductVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
@@ -55,7 +55,7 @@ BEGIN
 			VALUE "FileDescription", "Chrome Token Signing Native Host"
 			VALUE "FileVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
 			VALUE "InternalName", "chrome-token-signing-mass"
-			VALUE "LegalCopyright", "Copyright (C) 2015 Riigi Infosüsteemi Amet"
+			VALUE "LegalCopyright", "Copyright (C) 2015-2016 Riigi Infosüsteemi Amet"
 			VALUE "OriginalFilename", "chrome-token-signing-mass.exe"
 			VALUE "ProductName", "Chrome Token Signing Native Host"
 			VALUE "ProductVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
@@ -68,3 +68,5 @@ BEGIN
 	END
 END
 /* End of Version info */
+
+IDI_ICON1   ICON  DISCARDABLE  "ID.ico"
