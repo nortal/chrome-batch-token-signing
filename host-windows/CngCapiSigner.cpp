@@ -76,7 +76,7 @@ string CngCapiSigner::doSign() {
 
   BCRYPT_PKCS1_PADDING_INFO padInfo;
 	DWORD obtainKeyStrategy = CRYPT_ACQUIRE_PREFER_NCRYPT_KEY_FLAG;
-	vector<unsigned char> digest = BinaryUtils::hex2bin(getHash()->c_str());
+	vector<unsigned char> digest = BinaryUtils::hex2bin(getHash());
 
 	ALG_ID alg = 0;
 	
@@ -104,7 +104,7 @@ string CngCapiSigner::doSign() {
 		break;
 	default:
     _log("sign(): Invalid hash size, length: %d, hexLength: %d, hash: '%s'.", 
-      getHash()->length(), digest.size(), getHash()->c_str());
+      getHash().length(), digest.size(), getHash());
 		throw InvalidHashException();
 	}
 	
@@ -119,7 +119,7 @@ string CngCapiSigner::doSign() {
 		throw TechnicalException("Failed to open Cert Store");
 	}
 	
-	vector<unsigned char> certInBinary = BinaryUtils::hex2bin(getCertInHex()->c_str());
+	vector<unsigned char> certInBinary = BinaryUtils::hex2bin(getCertInHex());
 	
 	PCCERT_CONTEXT certFromBinary = CertCreateCertificateContext(X509_ASN_ENCODING, &certInBinary[0], certInBinary.size());
 	PCCERT_CONTEXT certInStore = CertFindCertificateInStore(store, X509_ASN_ENCODING, 0, CERT_FIND_EXISTING, certFromBinary, 0);
@@ -147,7 +147,7 @@ string CngCapiSigner::doSign() {
 	case CERT_NCRYPT_KEY_SPEC:
 	{
     _log("sign(): spec=CERT_NCRYPT_KEY_SPEC");
-    _log("sign(): Calling NCryptSignHash with hash='%s'.", getHash()->c_str());
+    _log("sign(): Calling NCryptSignHash with hash='%s'.", getHash());
 
     if (hasPin()) {
       setPinForSigningCNG(key, getPin());
@@ -221,7 +221,7 @@ string CngCapiSigner::sign() {
 
   // sign all hashes
   std::string signatures("");         // for returned signatures
-  std::string allHashes(*getHash());  // all hashes
+  std::string allHashes(getHash());  // all hashes
   int hashPos = 0;                    // search position in the complete hash string
 
   int currentHash = 0;
@@ -335,7 +335,7 @@ bool CngCapiSigner::checkPin() {
   // *** get the key, copied from the beginning of doSign() ***
   BCRYPT_PKCS1_PADDING_INFO padInfo;
   DWORD obtainKeyStrategy = CRYPT_ACQUIRE_PREFER_NCRYPT_KEY_FLAG;
-  vector<unsigned char> digest = BinaryUtils::hex2bin(getHash()->c_str());
+  vector<unsigned char> digest = BinaryUtils::hex2bin(getHash());
   ALG_ID alg = 0;
   switch (digest.size())
   {
@@ -361,14 +361,14 @@ bool CngCapiSigner::checkPin() {
     break;
   default:
     _log("sign(): Invalid hash size, length: %d, hexLength: %d, hash: '%s'.",
-      getHash()->length(), digest.size(), getHash()->c_str());
+      getHash().length(), digest.size(), getHash());
     throw InvalidHashException();
   }
   HCERTSTORE store = CertOpenSystemStore(0, L"MY");
   if (!store) {
     throw TechnicalException("Failed to open Cert Store");
   }
-  vector<unsigned char> certInBinary = BinaryUtils::hex2bin(getCertInHex()->c_str());
+  vector<unsigned char> certInBinary = BinaryUtils::hex2bin(getCertInHex());
   PCCERT_CONTEXT certFromBinary = CertCreateCertificateContext(X509_ASN_ENCODING, &certInBinary[0], certInBinary.size());
   PCCERT_CONTEXT certInStore = CertFindCertificateInStore(store, X509_ASN_ENCODING, 0, CERT_FIND_EXISTING, certFromBinary, 0);
   CertFreeCertificateContext(certFromBinary);

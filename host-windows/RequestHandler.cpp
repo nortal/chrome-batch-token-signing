@@ -19,9 +19,9 @@
 #include "RequestHandler.h"
 #include "Logger.h"
 #include "VersionInfo.h"
-#include "CertificateSelectorFactory.h"
+#include "CertificateSelector.h"
 #include "ContextMaintainer.h"
-#include "SignerFactory.h"
+#include "Signer.h"
 #include "ProgressBar.h"
 
 using namespace std;
@@ -119,7 +119,7 @@ void RequestHandler::handleVersionRequest() {
 
 void RequestHandler::handleCertRequest() {
 	validateSecureOrigin();
-	CertificateSelector * certificateSelector = CertificateSelectorFactory::createCertificateSelector();
+	CertificateSelector * certificateSelector = CertificateSelector::createCertificateSelector();
 	string selectedCert = certificateSelector->getCert();
 	ContextMaintainer::saveCertificate(selectedCert);
 	jsonResponse << "cert" << selectedCert;
@@ -127,9 +127,9 @@ void RequestHandler::handleCertRequest() {
 
 void RequestHandler::handleSignRequest() {
 	validateSecureOrigin();
-	Signer * signer = SignerFactory::createSigner(jsonRequest);
-	_log("signing hash: %s, with certId: %s", signer->getHash()->c_str(), signer->getCertInHex()->c_str());
-	validateContext(*signer->getCertInHex());
+	Signer * signer = Signer::createSigner(jsonRequest);
+	_log("signing hash: %s, with certId: %s", signer->getHash().c_str(), signer->getCertInHex().c_str());
+	validateContext(signer->getCertInHex());
   jsonResponse << "signature" << signer->sign();
 }
 

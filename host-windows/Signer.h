@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include <string>
+#include "jsonxx.h"
 #include "Logger.h"
 
 #define BINARY_SHA1_LENGTH 20
@@ -31,12 +31,14 @@ using namespace std;
 
 class Signer {
 public:
+	static Signer * createSigner(const jsonxx::Object &jsonRequest);
+
 	Signer(const string &_hash, const string &_certInHex) : hash(_hash), certInHex(_certInHex) {}
+	virtual ~Signer() = default;
 	virtual string sign() = 0;
 	
-  // get the current hash
-	string * getHash() {
-		return &hash;
+	string  getHash() const {
+		return hash;
 	}
 
   // set the current hash
@@ -49,8 +51,8 @@ public:
     return (hash != "");
   }
 
-	string * getCertInHex() {
-		return &certInHex;
+	string getCertInHex() {
+		return certInHex;
 	}
 
   // set pin
