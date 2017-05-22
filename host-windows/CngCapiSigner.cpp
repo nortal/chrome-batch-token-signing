@@ -193,6 +193,7 @@ string CngCapiSigner::doSign() {
 			CryptReleaseContext(key, 0);
 		}
 		CryptDestroyHash(hash);
+		signature.resize(size);
 		reverse(signature.begin(), signature.end());
 		break;
 	}
