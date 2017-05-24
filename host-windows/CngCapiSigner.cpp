@@ -72,14 +72,12 @@ void CngCapiSigner::setHashes(string allHashes) {
   }
 }
 
-string CngCapiSigner::doSign() {
+std::vector<unsigned char> CngCapiSigner::doSign(const std::vector<unsigned char> &digest) {
 
   BCRYPT_PKCS1_PADDING_INFO padInfo;
 	DWORD obtainKeyStrategy = CRYPT_ACQUIRE_PREFER_NCRYPT_KEY_FLAG;
-	vector<unsigned char> digest = BinaryUtils::hex2bin(getHash());
 
-	ALG_ID alg = 0;
-	
+	ALG_ID alg = 0;	
 	switch (digest.size())
 	{
 	case BINARY_SHA1_LENGTH:
@@ -103,8 +101,9 @@ string CngCapiSigner::doSign() {
 		alg = CALG_SHA_512;
 		break;
 	default:
-    _log("sign(): Invalid hash size, length: %d, hexLength: %d, hash: '%s'.", 
-      getHash().length(), digest.size(), getHash());
+		string hexDigest = BinaryUtils::bin2hex(digest);
+		_log("sign(): Invalid hash size, length: %d, hexLength: %d, hash: '%s'.",
+			digest.size(), hexDigest.length(), hexDigest);
 		throw InvalidHashException();
 	}
 	
@@ -121,7 +120,7 @@ string CngCapiSigner::doSign() {
 	
 	vector<unsigned char> certInBinary = BinaryUtils::hex2bin(getCertInHex());
 	
-	PCCERT_CONTEXT certFromBinary = CertCreateCertificateContext(X509_ASN_ENCODING, &certInBinary[0], certInBinary.size());
+	PCCERT_CONTEXT certFromBinary = CertCreateCertificateContext(X509_ASN_ENCODING, certInBinary.data(), certInBinary.size());
 	PCCERT_CONTEXT certInStore = CertFindCertificateInStore(store, X509_ASN_ENCODING, 0, CERT_FIND_EXISTING, certFromBinary, 0);
 	CertFreeCertificateContext(certFromBinary);
 
@@ -146,22 +145,21 @@ string CngCapiSigner::doSign() {
 	{
 	case CERT_NCRYPT_KEY_SPEC:
 	{
-    _log("sign(): spec=CERT_NCRYPT_KEY_SPEC");
-    _log("sign(): Calling NCryptSignHash with hash='%s'.", getHash());
-
     if (hasPin()) {
       setPinForSigningCNG(key, getPin());
     }
 
-		err = NCryptSignHash(key, &padInfo, PBYTE(&digest[0]), DWORD(digest.size()),
-      &signature[0], DWORD(signature.size()), (DWORD*)&size, BCRYPT_PAD_PKCS1);
+		err = NCryptSignHash(key, &padInfo, PBYTE(digest.data()), DWORD(digest.size()),
+			signature.data(), DWORD(signature.size()), (DWORD*)&size, BCRYPT_PAD_PKCS1);
     _log("sign(): NCryptSignHash called.");
 
 		if (freeKeyHandle) {
 			NCryptFreeObject(key);
 		}
+		signature.resize(size);
 		break;
 	}
+	case AT_KEYEXCHANGE:
 	case AT_SIGNATURE:
 	{
     _log("sign(): spec=AT_SIGNATURE");
@@ -185,8 +183,7 @@ string CngCapiSigner::doSign() {
       _log("Setting PIN for CryptSignHashW()...");
       setPinForSigningCSP(key, getPin());
     }
-
-		INT retCode = CryptSignHashW(hash, AT_SIGNATURE, 0, 0, LPBYTE(signature.data()), &size);
+		INT retCode = CryptSignHashW(hash, spec, 0, 0, LPBYTE(signature.data()), &size);
 		err = retCode ? ERROR_SUCCESS : GetLastError();
 		_log("CryptSignHash() return code: %u (%s) %x", retCode, retCode ? "SUCCESS" : "FAILURE", err);
 		if (freeKeyHandle) {
@@ -204,8 +201,9 @@ string CngCapiSigner::doSign() {
 	switch (err)
 	{
 	case ERROR_SUCCESS:
-		break;
-	case SCARD_W_CANCELLED_BY_USER: case ERROR_CANCELLED:
+		return signature;
+	case SCARD_W_CANCELLED_BY_USER:
+	case ERROR_CANCELLED:
 		throw UserCancelledException("Signing was cancelled");
 	case SCARD_W_CHV_BLOCKED:
 		throw PinBlockedException();
@@ -214,15 +212,13 @@ string CngCapiSigner::doSign() {
 	default:
 		throw TechnicalException("Signing failed");
 	}
-	signature.resize(size);
-	return BinaryUtils::bin2hex(signature);
 }
 
-string CngCapiSigner::sign() {
-
+vector<unsigned char> CngCapiSigner::sign(const vector<unsigned char> &digest)
+{
   // sign all hashes
   std::string signatures("");         // for returned signatures
-  std::string allHashes(getHash());  // all hashes
+  std::string allHashes(BinaryUtils::bin2hex(getHash()));  // all hashes
   int hashPos = 0;                    // search position in the complete hash string
 
   int currentHash = 0;
@@ -259,7 +255,7 @@ string CngCapiSigner::sign() {
   int hashCount = getHashCount(allHashes.c_str());
 
   // get the first hash from the comma separated list
-  setHash(getNextHash(allHashes, hashPos));
+  setHash(BinaryUtils::hex2bin(getNextHash(allHashes, hashPos)));
 
   // While we have a hash string...
   cancelSigning = false;
@@ -288,14 +284,14 @@ string CngCapiSigner::sign() {
     }
 
     // create a signature for the given hash
-    std::string result = doSign();
+    std::string result = BinaryUtils::bin2hex(doSign(getHash()));
 
     // append the signature to comma separated signature list
     _log("Appending signature '%s'.", result.c_str());
     signatures += (signatures.length() ? "," + result : result);
 
     // get the next hash string (or "" if nothing is left).
-    setHash(getNextHash(allHashes, hashPos));
+    setHash(BinaryUtils::hex2bin(getNextHash(allHashes, hashPos)));
 
     // update progress bar
     if (progressBarDlg && hWndPB && !cancelSigning) {
@@ -320,7 +316,7 @@ string CngCapiSigner::sign() {
     progressBarDlg = NULL;
   }
 
-  return signatures;
+  return BinaryUtils::hex2bin(signatures);
 }
 
 string CngCapiSigner::askPin(int pinLength) {
@@ -336,7 +332,7 @@ bool CngCapiSigner::checkPin() {
   // *** get the key, copied from the beginning of doSign() ***
   BCRYPT_PKCS1_PADDING_INFO padInfo;
   DWORD obtainKeyStrategy = CRYPT_ACQUIRE_PREFER_NCRYPT_KEY_FLAG;
-  vector<unsigned char> digest = BinaryUtils::hex2bin(getHash());
+  vector<unsigned char> digest = getHash();
   ALG_ID alg = 0;
   switch (digest.size())
   {
@@ -361,8 +357,9 @@ bool CngCapiSigner::checkPin() {
     alg = CALG_SHA_512;
     break;
   default:
+	string hexDigest = BinaryUtils::bin2hex(digest);
     _log("sign(): Invalid hash size, length: %d, hexLength: %d, hash: '%s'.",
-      getHash().length(), digest.size(), getHash());
+		digest.size(), hexDigest.length(), hexDigest);
     throw InvalidHashException();
   }
   HCERTSTORE store = CertOpenSystemStore(0, L"MY");

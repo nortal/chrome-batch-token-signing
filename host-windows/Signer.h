@@ -19,7 +19,6 @@
 #pragma once
 
 #include "jsonxx.h"
-#include "Logger.h"
 
 #define BINARY_SHA1_LENGTH 20
 #define BINARY_SHA224_LENGTH 28
@@ -27,31 +26,31 @@
 #define BINARY_SHA384_LENGTH 48
 #define BINARY_SHA512_LENGTH 64
 
-using namespace std;
-
 class Signer {
 public:
 	static Signer * createSigner(const jsonxx::Object &jsonRequest);
 
-	Signer(const string &_hash, const string &_certInHex) : hash(_hash), certInHex(_certInHex) {}
+	Signer(const std::string &_certInHex): certInHex(_certInHex) {}
 	virtual ~Signer() = default;
-	virtual string sign() = 0;
-	
-	string  getHash() const {
+	bool showInfo(const std::string &msg);
+	virtual std::vector<unsigned char> sign(const std::vector<unsigned char> &digest) = 0;
+
+	std::vector<unsigned char>  getHash() const {
 		return hash;
 	}
 
+	std::string getCertInHex() const { return certInHex; }
   // set the current hash
-  void setHash(string _hash) {
+	void setHash(std::vector<unsigned char> _hash) {
     hash = _hash;
   }
 
   // check if we have a hash
   bool hasHash() {
-    return (hash != "");
+    return (hash.size() != 0);
   }
 
-	string getCertInHex() {
+	std::string getCertInHex() {
 		return certInHex;
 	}
 
@@ -61,7 +60,7 @@ public:
   }
 
   // get pin
-  string& getPin() {
+  std::string& getPin() {
     return pin;
   }
 
@@ -71,7 +70,7 @@ public:
   }
 
 protected:
-  string getNextHash(std::string allHashes, int& position, char* separator=",")
+  std::string getNextHash(std::string allHashes, int& position, char* separator=",")
   {
     std::string result("");
     bool found = false;
@@ -104,7 +103,7 @@ protected:
   }
 
 private:
-  string pin;
-  string hash;
-	string certInHex;
+  std::string pin;
+  std::vector<unsigned char> hash;
+	std::string certInHex;
 };

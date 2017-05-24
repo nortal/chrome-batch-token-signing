@@ -20,15 +20,14 @@
 
 #include <list>
 #include "Signer.h"
-#include "Logger.h"
 #include "DialogManager.h"
 
 class CngCapiSigner : public Signer {
 public:
-	CngCapiSigner(const string &_hash, const string &_certInHex) : Signer(_hash, _certInHex){
+	CngCapiSigner(const std::string &certInHex) : Signer(certInHex){
     pinTriesLeft = 3;
   }
-	string sign();
+	std::vector<unsigned char> sign(const std::vector<unsigned char> &digest) override;
 
   /*
   // get the current hash or NULL
@@ -51,12 +50,12 @@ public:
   */
 
 private:
-  list<string>  hashes; // to be used later
+  std::list<std::string>  hashes; // to be used later
   int           pinTriesLeft;
   DialogManager pinDialog;
 
-  void    setHashes(string allHashes);
-  string  doSign();
-  string  askPin(int pinLength);
+  void    setHashes(std::string allHashes);
+  std::vector<unsigned char> doSign(const std::vector<unsigned char> &digest);
+  std::string  askPin(int pinLength);
   bool    checkPin();
 };
