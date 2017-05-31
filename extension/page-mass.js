@@ -75,7 +75,7 @@ function TokenSigningMass() {
         });
     }
     this.getCertificate = function(options) {
-        var msg = {type: "CERT", lang: options.lang};
+        var msg = {type: "CERT", lang: options.lang, filter: options.filter};
         console.log("getCertificate()");
         return messagePromise(msg);
     };

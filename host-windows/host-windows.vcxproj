@@ -101,7 +101,6 @@
     <ClInclude Include="CertificateSelector.h" />
     <ClInclude Include="CngCapiSigner.h" />
     <ClInclude Include="ContextMaintainer.h" />
-    <ClInclude Include="DialogManager.h" />
     <ClInclude Include="HostExceptions.h" />
     <ClInclude Include="IOCommunicator.h" />
     <ClInclude Include="NativeCertificateSelector.h" />
@@ -123,7 +122,6 @@
     <ClCompile Include="CertificateSelector.cpp" />
     <ClCompile Include="ContextMaintainer.cpp" />
     <ClCompile Include="chrome-batch-token-signing.cpp" />
-    <ClCompile Include="DialogManager.cpp" />
     <ClCompile Include="IOCommunicator.cpp" />
     <ClCompile Include="NativeCertificateSelector.cpp" />
     <ClCompile Include="PinDialog.cpp" />

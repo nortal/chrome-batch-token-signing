@@ -20,42 +20,9 @@
 
 #include <list>
 #include "Signer.h"
-#include "DialogManager.h"
 
 class CngCapiSigner : public Signer {
 public:
-	CngCapiSigner(const std::string &certInHex) : Signer(certInHex){
-    pinTriesLeft = 3;
-  }
+	CngCapiSigner(const std::string &certInHex) : Signer(certInHex) {}
 	std::vector<unsigned char> sign(const std::vector<unsigned char> &digest) override;
-
-  /*
-  // get the current hash or NULL
-  string * getHash() {
-    if (hashes.size() > 0)
-      return &(*hashes.begin());
-    else
-      return NULL;
-  }
-
-  // get the next hash or NULL
-  string * nextHash() {
-    if (hashes.size() > 0)
-      hashes.pop_front();
-    string* pHash = getHash();
-    if (pHash)
-      setHash(*pHash);
-    return pHash;
-  }
-  */
-
-private:
-  std::list<std::string>  hashes; // to be used later
-  int           pinTriesLeft;
-  DialogManager pinDialog;
-
-  void    setHashes(std::string allHashes);
-  std::vector<unsigned char> doSign(const std::vector<unsigned char> &digest);
-  std::string  askPin(int pinLength);
-  bool    checkPin();
 };

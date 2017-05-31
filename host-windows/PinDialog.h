@@ -22,13 +22,14 @@
 #include <string>
 
 #include <afxcmn.h>
+#include <string>
 
 class PinDialog : public CDialog
 {
 	DECLARE_DYNAMIC(PinDialog)
 
 public:
-	PinDialog(CWnd* pParent = NULL) : CDialog(PinDialog::IDD, pParent) {
+	PinDialog(const std::wstring &_label, CWnd* pParent = NULL) : CDialog(PinDialog::IDD, pParent), label(_label) {
         HWND hCurWnd = ::GetForegroundWindow();
         DWORD dwMyID = ::GetCurrentThreadId();
         DWORD dwCurID = ::GetWindowThreadProcessId(hCurWnd, NULL);
@@ -52,4 +53,5 @@ protected:
 
 private:
 	char* pin;
+	std::wstring label;
 };
