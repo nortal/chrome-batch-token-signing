@@ -19,8 +19,9 @@
 #pragma once
 
 #include "resource.h"
-#include "afxcmn.h"
 #include <string>
+
+#include <afxcmn.h>
 
 class PinDialog : public CDialog
 {
@@ -39,7 +40,6 @@ public:
         ::SetFocus(m_hWnd);
         ::SetActiveWindow(m_hWnd);
     }
-	virtual ~PinDialog(){}
 	char* getPin();
 	afx_msg void OnBnClickedOk();
 
@@ -48,6 +48,7 @@ public:
 
 protected:
 	DECLARE_MESSAGE_MAP()
+	virtual BOOL OnInitDialog() override;
 
 private:
 	char* pin;

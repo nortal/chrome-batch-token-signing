@@ -17,6 +17,7 @@
  */
 
 #include "RequestHandler.h"
+#include "Labels.h"
 #include "Logger.h"
 #include "VersionInfo.h"
 #include "CertificateSelector.h"
@@ -36,6 +37,9 @@ jsonxx::Object RequestHandler::handleRequest() {
 	try {
 		if (jsonRequest.parse(request) && hasGloballyRequiredArguments()) {
 			validateOrigin(jsonRequest.get<string>("origin"));
+			if (jsonRequest.has<string>("lang"))
+				Labels::l10n.setLanguage(jsonRequest.get<string>("lang"));
+
 			string type = jsonRequest.get<string>("type");
 			if (type == "VERSION") {
 				handleVersionRequest();
@@ -54,7 +58,7 @@ jsonxx::Object RequestHandler::handleRequest() {
 			throw InvalidArgumentException("Invalid argument");
 		}
 	}
-	catch (const InvalidArgumentException &e) {
+	catch (const InvalidArgumentException &) {
 		throw;
 	}
 	catch (const BaseException &e) {
@@ -123,7 +127,7 @@ void RequestHandler::handleVersionRequest() {
 void RequestHandler::handleCertRequest() {
 	validateSecureOrigin();
 	CertificateSelector * certificateSelector = CertificateSelector::createCertificateSelector();
-	string selectedCert = certificateSelector->getCert();
+	string selectedCert = BinaryUtils::bin2hex(certificateSelector->getCert());
 	ContextMaintainer::saveCertificate(selectedCert);
 	jsonResponse << "cert" << selectedCert;
 }
@@ -160,6 +164,6 @@ void RequestHandler::handleSignRequest() {
 
 void RequestHandler::handleException(const BaseException &e) {
 	jsonxx::Object exceptionalJson;
-	exceptionalJson << "result" << e.getErrorCode() << "message" << e.getErrorMessage();
+	exceptionalJson << "result" << e.getErrorCode() << "message" << e.what();
 	jsonResponse = exceptionalJson;
 }
