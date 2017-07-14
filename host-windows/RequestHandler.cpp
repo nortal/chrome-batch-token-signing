@@ -148,7 +148,7 @@ void RequestHandler::handleSignRequest() {
 		_log("Hash length %i is invalid", hash.size());
 		throw InvalidHashException();
 	}
-	unique_ptr<Signer> signer(Signer::createSigner(jsonRequest));
+	unique_ptr<Signer> signer(Signer::createSigner(jsonRequest.get<string>("cert")));
 	
 	if (jsonRequest.has<string>("info") &&
 		!jsonRequest.get<string>("info").empty() &&
