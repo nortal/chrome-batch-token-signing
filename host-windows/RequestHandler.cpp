@@ -126,7 +126,7 @@ void RequestHandler::handleVersionRequest() {
 
 void RequestHandler::handleCertRequest(bool forSigning) {
 	validateSecureOrigin();
-	CertificateSelector *certificateSelector = CertificateSelector::createCertificateSelector();
+	unique_ptr<CertificateSelector> certificateSelector(CertificateSelector::createCertificateSelector());
 	string selectedCert = BinaryUtils::bin2hex(certificateSelector->getCert(forSigning));
 	ContextMaintainer::saveCertificate(selectedCert);
 	jsonResponse << "cert" << selectedCert;
@@ -150,9 +150,7 @@ void RequestHandler::handleSignRequest() {
 	}
 	unique_ptr<Signer> signer(Signer::createSigner(jsonRequest.get<string>("cert")));
 	
-	if (jsonRequest.has<string>("info") &&
-		!jsonRequest.get<string>("info").empty() &&
-		!signer->showInfo(jsonRequest.get<string>("info")))
+	if (!signer->showInfo(jsonRequest.get<string>("info", string())))
 		throw UserCancelledException();
 
 	_log("signing hash: %s, with certId: %s", hash.c_str(), signer->getCertInHex().c_str());

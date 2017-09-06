@@ -74,10 +74,10 @@ vector<unsigned char> CngCapiSigner::sign(const vector<unsigned char> &digest)
 
   _log("sign(): Getting certficate...");
 
-	HCERTSTORE store = CertOpenSystemStore(0, L"MY");
-	if (!store) {
+	HCERTSTORE store = CertOpenStore(CERT_STORE_PROV_SYSTEM,
+		X509_ASN_ENCODING, 0, CERT_SYSTEM_STORE_CURRENT_USER | CERT_STORE_READONLY_FLAG, L"MY");
+	if (!store)
 		throw TechnicalException("Failed to open Cert Store");
-	}
 	
 	vector<unsigned char> certInBinary = BinaryUtils::hex2bin(getCertInHex());
 	
