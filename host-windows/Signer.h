@@ -31,13 +31,12 @@ class Signer {
 public:
 	virtual ~Signer() = default;
 
-	static Signer* createSigner(const std::string &cert);
-	std::string getCertInHex() const { return certInHex; }
+	static Signer* createSigner(const std::vector<unsigned char> &cert);
 	bool showInfo(const std::string &msg);
 	virtual std::vector<unsigned char> sign(const std::vector<unsigned char> &digest) = 0;
 
 protected:
-	Signer(const std::string &_certInHex): certInHex(_certInHex) {}
+	Signer(const std::vector<unsigned char> &_cert) : cert(_cert) {}
 
 public:
 	std::vector<unsigned char>  getHash() const {
@@ -53,10 +52,6 @@ public:
   bool hasHash() {
     return (hash.size() != 0);
   }
-
-	std::string getCertInHex() {
-		return certInHex;
-	}
 
   // set pin
   void setPin(std::string _pin) {
@@ -109,5 +104,7 @@ protected:
 private:
   std::string pin;
   std::vector<unsigned char> hash;
-	std::string certInHex;
+
+protected:
+	std::vector<unsigned char> cert;
 };
