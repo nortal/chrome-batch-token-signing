@@ -10,7 +10,7 @@
     },
     "content_scripts": [{
         "matches": ["*://*/*", "file:///*"],
-        "exclude_matches": ["*://*.overdrive.com/*"],
+        "exclude_matches": ["*://*.overdrive.com/*", "*://*/*.svg"],
         "js": ["content-mass.js"],
         "run_at": "document_end",
         "all_frames": true
