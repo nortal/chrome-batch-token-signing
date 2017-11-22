@@ -1,5 +1,5 @@
 ./host-linux/chrome-batch-token-signing /usr/bin
 ./host-linux/ee.nortal.sign_mass.json /usr/share/chrome-batch-token-signing
-./host-linux/ff/ee.ria.esteid.json /usr/lib/mozilla/native-messaging-hosts
+./host-linux/ff/ee.nortal.sign_mass.json /usr/lib/mozilla/native-messaging-hosts
 ./fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json /usr/share/chrome-batch-token-signing
 ./\{443830f0-1fff-4f9a-aa1e-444bafbc7319\}.xpi /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}

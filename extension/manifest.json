@@ -1,6 +1,6 @@
 {
     "name": "Token signing Mass",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "minimum_chrome_version": "40.0",
     "manifest_version": 2,
     "description": "Use your eID smart card on the web with multiple file signing capabilities",
@@ -20,7 +20,7 @@
     "permissions": ["nativeMessaging"],
     "applications": {
         "gecko": {
-            "id": "{443830f0-1fff-4f9a-aa1e-444bafbc7319}"
+            "id": "massallkirjastamine@nortal.com"
         }
     }
 }

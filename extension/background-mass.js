@@ -46,7 +46,7 @@ typeof chrome.runtime.onStartup !== 'undefined' && chrome.runtime.onStartup.addL
 		if (result === "ok") {
 			missing = false;
 		}
-	});
+	}, onError);
 });
 
 // Force kill of native process
@@ -108,9 +108,13 @@ typeof chrome.runtime.onInstalled !== 'undefined' && chrome.runtime.onInstalled.
 				if (url) {
 					chrome.tabs.create({'url': url + "?" + details.reason});
 				}
-		});
+		}, onError);
 	}
 });
+
+function onError(error) {
+	console.log('Error: ' + error);
+};
 
 // When message is received from page send it to native
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -137,7 +141,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 					} else {
 						return _fail_with(request, "no_implementation");
 					}
-				});
+				}, onError);
 			} else {
 				// TODO: Check if the URL is in allowed list or not
 				// Either way forward to native currently

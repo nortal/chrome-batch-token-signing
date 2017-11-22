@@ -55,38 +55,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
             <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC120.CRT\msvcp120.dll"/>
             <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC120.CRT\msvcr120.dll"/>
             <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC120.MFC\mfc120u.dll"/>
-            <File Source="host-windows/Release/chrome-token-signing-mass.exe"/>
+            <File Source="host-windows/Release/chrome-batch-token-signing.exe"/>
             <File Source="host-windows/ee.nortal.sign_mass.json"/>
-            <File Source="host-windows/ee.ria.esteid.firefox.json"/>
-            <File Source="{443830f0-1fff-4f9a-aa1e-444bafbc7319}.xpi"/>
+            <File Source="host-windows/ee.nortal.sign_mass.firefox.json"/>
             <RegistryValue Root="HKLM" Type="string" Value="[APPLICATIONFOLDER]ee.nortal.sign_mass.json"
                 Key="SOFTWARE\Google\Chrome\NativeMessagingHosts\ee.nortal.sign_mass"/>
             <RegistryValue Root="HKLM" Type="string" Name="update_url"
                 Key="SOFTWARE\Google\Chrome\Extensions\fhflklnpgjhdjcnlnlnoeomfebmbjkkk"
                 Value="https://clients2.google.com/service/update2/crx" />
-            <RegistryValue Root="HKLM" Type="string" Value="[APPLICATIONFOLDER]\{443830f0-1fff-4f9a-aa1e-444bafbc7319}.xpi"
-                Key="SOFTWARE\Mozilla\Firefox\Extensions" Name="{443830f0-1fff-4f9a-aa1e-444bafbc7319}" />
           </Component>
         </Directory>
       </Directory>
-<?if $(var.Platform) = "x64" ?>
-      <Component Id="Firefox_X64" Win64="yes">
-        <RegistryValue Root="HKLM" Type="string" Value="[APPLICATIONFOLDER]\{443830f0-1fff-4f9a-aa1e-444bafbc7319}.xpi"
-            Key="SOFTWARE\Mozilla\Firefox\Extensions" Name="{443830f0-1fff-4f9a-aa1e-444bafbc7319}" />
-      </Component>
-<?endif ?>
-      <Component Id="Firefox" Guid="60c6e502-529b-4d28-9e92-4cdbf1176afb" Win64="$(var.Win64)">
-        <RegistryValue Root='HKLM' Type='string' Value='[APPLICATIONFOLDER]ee.ria.esteid.firefox.json'
-            Key='SOFTWARE\Mozilla\NativeMessagingHosts\ee.ria.esteid' />
+      <Component Id="Firefox" Guid="F0115BFB-DCC1-4D8D-8959-DEC83E1C9419" Win64="$(var.Win64)">
+        <RegistryValue Root='HKLM' Type='string' Value='[APPLICATIONFOLDER]ee.nortal.sign_mass.firefox.json'
+          Key='SOFTWARE\Mozilla\NativeMessagingHosts\ee.nortal.sign_mass' />
       </Component>
     </Directory>
 
     <Feature Id="Install" Level="1" Title="Chrome Token Signing Mass" Display="expand" ConfigurableDirectory="APPLICATIONFOLDER">
       <ComponentRef Id="Application"/>
       <ComponentRef Id="Firefox"/>
-<?if $(var.Platform) = "x64" ?>
-      <ComponentRef Id="Firefox_X64"/>
-<?endif ?>
     </Feature>
   </Product>
 </Wix>

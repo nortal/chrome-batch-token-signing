@@ -3,7 +3,7 @@
     "description": "Give signatures with your eID on the web",
     "path": "chrome-batch-token-signing.exe",
     "type": "stdio",
-	"allowed_origins": [
-        "chrome-extension://fhflklnpgjhdjcnlnlnoeomfebmbjkkk/"
+    "allowed_extensions": [
+      "massallkirjastamine@nortal.com"
     ]
 }

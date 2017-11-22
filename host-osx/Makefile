@@ -74,15 +74,15 @@ $(OPENSSL):
 install:
 	mkdir -p $(NATIVE_PATH) $(FIREFOX_PATH) $(FFEXTENSION_PATH) $(EXTERNAL_PATH)
 	cp -rv build/Release/chrome-token-signing.app $(NATIVE_PATH)
-	cp -v ee.nortal.sign_mass.json $(NATIVE_PATH)
-	cp -v ee.ria.esteid.firefox.json $(FIREFOX_PATH)/ee.ria.esteid.json
+	cp -v ee.nortal.sign-mass.json $(NATIVE_PATH)
+	cp -v ee.nortal.sign-mass.firefox.json $(FIREFOX_PATH)/ee.nortal.sign-mass.json
 	cp -v ../{443830f0-1fff-4f9a-aa1e-444bafbc7319}.xpi $(FFEXTENSION_PATH)
 	cp -v ../fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json $(EXTERNAL_PATH)
 
 uninstall:
 	rm -f $(EXTERNAL_PATH)/fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json
-	rm -f $(NATIVE_PATH)/ee.nortal.sign_mass.json
-	rm -f $(FIREFOX_PATH)/ee.ria.esteid.json
+	rm -f $(NATIVE_PATH)/ee.nortal.sign-mass.json
+	rm -f $(FIREFOX_PATH)/ee.nortal.sign-mass.json
 	rm -f $(FFEXTENSION_PATH)/{443830f0-1fff-4f9a-aa1e-444bafbc7319}.xpi
 	rm -rf $(NATIVE_PATH)/chrome-token-signing.app
 

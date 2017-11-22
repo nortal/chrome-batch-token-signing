@@ -27,7 +27,18 @@ class PinDialog : public CDialog
 	DECLARE_DYNAMIC(PinDialog)
 
 public:
-	PinDialog(CWnd* pParent = NULL) : CDialog(PinDialog::IDD, pParent) {}
+	PinDialog(CWnd* pParent = NULL) : CDialog(PinDialog::IDD, pParent) {
+        HWND hCurWnd = ::GetForegroundWindow();
+        DWORD dwMyID = ::GetCurrentThreadId();
+        DWORD dwCurID = ::GetWindowThreadProcessId(hCurWnd, NULL);
+        ::AttachThreadInput(dwCurID, dwMyID, TRUE);
+        ::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+        ::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+        ::SetForegroundWindow(m_hWnd);
+        ::AttachThreadInput(dwCurID, dwMyID, FALSE);
+        ::SetFocus(m_hWnd);
+        ::SetActiveWindow(m_hWnd);
+    }
 	virtual ~PinDialog(){}
 	char* getPin();
 	afx_msg void OnBnClickedOk();

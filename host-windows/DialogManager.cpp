@@ -41,9 +41,9 @@ wstring getWrongPinErrorMessage(int triesLeft) {
   if (triesLeft > 0) {
     wstring msg = L"Vale PIN. Sul on ";
     if (triesLeft == 1) {
-      return msg + L"1 katse j‰‰nud!";
+      return msg + L"1 katse j√§√§nud!";
     }
-    return msg + to_wstring(triesLeft) + L" katset j‰‰nud!";
+    return msg + to_wstring(triesLeft) + L" katset j√§√§nud!";
   }
   else {
     // Number of retries left should be read from the card...
@@ -56,6 +56,9 @@ char* DialogManager::getPin() {
 	initializeMFC();
 	PinDialog dialog;
 	INT_PTR nResponse = dialog.DoModal();
+	dialog.NextDlgCtrl();
+
+
 	if (nResponse == IDOK) {
 		return dialog.getPin();
 	}

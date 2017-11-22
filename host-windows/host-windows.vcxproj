@@ -14,7 +14,7 @@
     <ProjectGuid>{601210E5-2192-42B9-83E9-46CACC818900}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>hostwindows</RootNamespace>
-    <ProjectName>chrome-token-signing-mass</ProjectName>
+    <ProjectName>chrome-batch-token-signing</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

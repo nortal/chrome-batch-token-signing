@@ -29,17 +29,17 @@ build:
 pkg:
 	$(SIGN) host-windows/Release/chrome-token-signing-mass.exe
 	"$(WIX)\bin\candle.exe" -nologo host-windows\chrome-batch-token-signing.wxs -dVERSION=$(VERSIONEX) -dPlatform=x86
-	"$(WIX)\bin\light.exe" -nologo -out chrome-batch-token-signing_$(VERSIONEX).x86.msi chrome-batch-token-signing.wixobj -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp -dPlatform=x86
+	"$(WIX)\bin\light.exe" -nologo -out chrome-batch-token-signing_$(VERSIONEX).x86.msi chrome-batch-token-signing.wixobj -v -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp -dPlatform=x86
 	"$(WIX)\bin\candle.exe" -nologo host-windows\chrome-batch-token-signing.wxs -dVERSION=$(VERSIONEX) -dPlatform=x64
-	"$(WIX)\bin\light.exe" -nologo -out chrome-batch-token-signing_$(VERSIONEX).x64.msi chrome-batch-token-signing.wixobj -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp -dPlatform=x64
+	"$(WIX)\bin\light.exe" -nologo -out chrome-batch-token-signing_$(VERSIONEX).x64.msi chrome-batch-token-signing.wixobj -v -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp -dPlatform=x64
 	$(SIGN) chrome-batch-token-signing_$(VERSIONEX).x86.msi
 	$(SIGN) chrome-batch-token-signing_$(VERSIONEX).x64.msi
 
 pkg-unsigned:
 	"$(WIX)\bin\candle.exe" -nologo host-windows\chrome-batch-token-signing.wxs -dVERSION=$(VERSIONEX) -dPlatform=x86
-	"$(WIX)\bin\light.exe" -nologo -out chrome-batch-token-signing_$(VERSIONEX).x86.msi chrome-batch-token-signing.wixobj -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp -dPlatform=x86
+	"$(WIX)\bin\light.exe" -nologo -out chrome-batch-token-signing_$(VERSIONEX).x86.msi chrome-batch-token-signing.wixobj -v -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp -dPlatform=x86
 	"$(WIX)\bin\candle.exe" -nologo host-windows\chrome-batch-token-signing.wxs -dVERSION=$(VERSIONEX) -dPlatform=x64
-	"$(WIX)\bin\light.exe" -nologo -out chrome-batch-token-signing_$(VERSIONEX).x64.msi chrome-batch-token-signing.wixobj -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp -dPlatform=x64
+	"$(WIX)\bin\light.exe" -nologo -out chrome-batch-token-signing_$(VERSIONEX).x64.msi chrome-batch-token-signing.wixobj -v -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp -dPlatform=x64
 
 test: build
 	python host-test\pipe-test.py -v

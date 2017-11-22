@@ -37,6 +37,6 @@ uninstall:
 debian:
 	$(eval RELEASE = $(shell lsb_release -cs))
 	cd ..; \
-	git-archive-all ../chrome-token-signing_$(VERSIONEX).orig.tar.gz; \
+	git-archive-all ../chrome-batch-token-signing_$(VERSIONEX).orig.tar.gz; \
 	dch --distribution unstable -v $(VERSIONEX)-$(RELEASE) "Release: $(VERSIONEX)."; \
 	dpkg-buildpackage
