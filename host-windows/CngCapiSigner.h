@@ -18,11 +18,45 @@
 
 #pragma once
 
+#include <list>
 #include "Signer.h"
 #include "Logger.h"
+#include "DialogManager.h"
 
 class CngCapiSigner : public Signer {
 public:
-	CngCapiSigner(const string &_hash, const string &_certInHex) : Signer(_hash, _certInHex){}
+	CngCapiSigner(const string &_hash, const string &_certInHex) : Signer(_hash, _certInHex){
+    pinTriesLeft = 3;
+  }
 	string sign();
+
+  /*
+  // get the current hash or NULL
+  string * getHash() {
+    if (hashes.size() > 0)
+      return &(*hashes.begin());
+    else
+      return NULL;
+  }
+
+  // get the next hash or NULL
+  string * nextHash() {
+    if (hashes.size() > 0)
+      hashes.pop_front();
+    string* pHash = getHash();
+    if (pHash)
+      setHash(*pHash);
+    return pHash;
+  }
+  */
+
+private:
+  list<string>  hashes; // to be used later
+  int           pinTriesLeft;
+  DialogManager pinDialog;
+
+  void    setHashes(string allHashes);
+  string  doSign();
+  string  askPin(int pinLength);
+  bool    checkPin();
 };

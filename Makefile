@@ -26,16 +26,15 @@ SIGN = signtool sign /v /a /s MY /n "RIIGI INFOSUSTEEMI AMET" /fd SHA256 /du htt
 
 build:
 	msbuild /p:Configuration=Release;Platform=Win32 /property:MAJOR_VERSION=$(MAJOR_VERSION) /property:MINOR_VERSION=$(MINOR_VERSION) /property:RELEASE_VERSION=$(RELEASE_VERSION) /property:BUILD_NUMBER=$(BUILD_NUMBER) host-windows\host-windows.sln
-
 pkg:
-	$(SIGN) host-windows/Release/chrome-token-signing.exe
-	"$(WIX)\bin\candle.exe" host-windows\chrome-token-signing.wxs -dVERSION=$(VERSIONEX)
-	"$(WIX)\bin\light.exe" -out chrome-token-signing_$(VERSIONEX).msi chrome-token-signing.wixobj -v -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp
+	$(SIGN) host-windows/Release/chrome-token-signing-mass.exe
+	"$(WIX)\bin\candle.exe" host-windows\chrome-batch-token-signing.wxs -dVERSION=$(VERSIONEX)
+	"$(WIX)\bin\light.exe" -out chrome-token-signing_$(VERSIONEX).msi chrome-batch-token-signing.wixobj -v -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp
 	$(SIGN) chrome-token-signing_$(VERSIONEX).msi
 
 pkg-unsigned:
-	"$(WIX)\bin\candle.exe" host-windows\chrome-token-signing.wxs -dVERSION=$(VERSIONEX)
-	"$(WIX)\bin\light.exe" -out chrome-token-signing_$(VERSIONEX).msi chrome-token-signing.wixobj -v -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp
+	"$(WIX)\bin\candle.exe" host-windows\chrome-batch-token-signing.wxs -dVERSION=$(VERSIONEX)
+	"$(WIX)\bin\light.exe" -out chrome-batch-token-signing$(VERSIONEX).msi chrome-batch-token-signing.wixobj -v -ext WixUIExtension -dWixUILicenseRtf=LICENSE.LGPL.rtf -dWixUIDialogBmp=host-windows/dlgbmp.bmp
 	
 test: build
 	python host-test\pipe-test.py -v

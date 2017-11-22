@@ -22,7 +22,7 @@ var _eid_promises = {};
 // into pending Promise resolving
 window.addEventListener("message", function(event) {
     if(event.source !== window) return;
-    if(event.data.src && (event.data.src === "background.js")) {
+    if(event.data.src && (event.data.src === "background-mass.js")) {
         console.log("Page received: ");
         console.log(event.data);
         // Get the promise
@@ -52,10 +52,10 @@ window.addEventListener("message", function(event) {
 }, false);
 
 
-function TokenSigning() {
+function TokenSigningMass() {
     function nonce() {
         var val = "";
-        var hex = "abcdefghijklmnopqrstuvwxyz0123456789";
+        var hex = "abcdefghijklmnopqrstuvwxyz0123456788";
         for(var i = 0; i < 16; i++) val += hex.charAt(Math.floor(Math.random() * hex.length));
         return val;
     }
@@ -64,7 +64,7 @@ function TokenSigning() {
         return new Promise(function(resolve, reject) {
             // amend with necessary metadata
             msg["nonce"] = nonce();
-            msg["src"] = "page.js";
+            msg["src"] = "page-mass.js";
             // send message
             window.postMessage(msg, "*");
             // and store promise callbacks

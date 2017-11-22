@@ -8,7 +8,7 @@
     <BUILD_NUMBER>0</BUILD_NUMBER>
   </PropertyGroup>
   <PropertyGroup>
-    <_PropertySheetDisplayName>chrome-token-signing</_PropertySheetDisplayName>
+    <_PropertySheetDisplayName>chrome-batch-token-signing</_PropertySheetDisplayName>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup>

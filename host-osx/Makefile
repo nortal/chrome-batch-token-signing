@@ -47,13 +47,13 @@ pkg:
 install:
 	mkdir -p $(NATIVE_PATH)
 	cp -rv build/Release/chrome-token-signing.app $(NATIVE_PATH)
-	cp -v ee.ria.esteid.json $(NATIVE_PATH)
+	cp -v ee.nortal.sign_mass.json $(NATIVE_PATH)
 	mkdir -p $(EXTERNAL_PATH)
-	cp -v ../ckjefchnfjhjfedoccjbhjpbncimppeg.json $(EXTERNAL_PATH)
+	cp -v ../fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json $(EXTERNAL_PATH)
 
 uninstall:
-	rm -f $(EXTERNAL_PATH)/ckjefchnfjhjfedoccjbhjpbncimppeg.json
-	rm -f $(NATIVE_PATH)/ee.ria.esteid.json
+	rm -f $(EXTERNAL_PATH)/fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json
+	rm -f $(NATIVE_PATH)/ee.nortal.sign_mass.json
 	rm -rf $(NATIVE_PATH)/chrome-token-signing.app
 
 test:

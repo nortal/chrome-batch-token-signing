@@ -1,20 +1,20 @@
 {
-    "name": "Token signing",
-    "version": "0.0.21",
+    "name": "Token signing Mass",
+    "version": "0.0.6",
     "minimum_chrome_version": "40.0",
     "manifest_version": 2,
-    "description": "Use your eID smart card on the web",
+    "description": "Use your eID smart card on the web with multiple file signing capabilities",
     "icons": {
         "48": "icon48.png",
         "128": "icon128.png"
     },
     "content_scripts": [{
         "matches": ["*://*/*", "file:///*"],
-        "js": ["content.js"],
+        "js": ["content-mass.js"],
         "run_at": "document_end"
     }],
     "background": {
-        "scripts": ["background.js"]
+        "scripts": ["background-mass.js"]
     },
     "permissions": ["nativeMessaging"]
 }

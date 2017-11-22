@@ -1,5 +1,5 @@
 /*
- * Chrome token signing extension
+ * Chrome token mass signing extension
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,14 +18,14 @@
 
 var inuse = false;
 
-// Forward the message from page.js to background.js
+// Forward the message from page-mass.js to background-mass.js
 window.addEventListener("message", function(event) {
     // We only accept messages from ourselves
     if (event.source !== window)
         return;
 
     // and forward to extension
-    if (event.data.src && (event.data.src === "page.js")) {
+    if (event.data.src && (event.data.src === "page-mass.js")) {
         event.data["origin"] = location.origin;
         chrome.runtime.sendMessage(event.data, function(response) {});
 
@@ -33,7 +33,7 @@ window.addEventListener("message", function(event) {
         if (!inuse) {
             // close the native component if page unloads
             window.addEventListener("beforeunload", function(event) {
-                chrome.runtime.sendMessage({src: 'page.js', type: 'DONE'});
+                chrome.runtime.sendMessage({src: 'page-mass.js', type: 'DONE'});
             }, false);
             inuse = true;
         }
@@ -45,7 +45,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     window.postMessage(request, '*');
 });
 
-// inject content of page.js to the DOM of every page
+// inject content of page-mass.js to the DOM of every page
 // FIXME: maybe not ?
 var s = document.createElement('script');
 s.type = 'text/javascript';
@@ -55,7 +55,7 @@ var _eid_promises = {}; \n\
 // into pending Promise resolving \n\
 window.addEventListener("message", function(event) { \n\
     if(event.source !== window) return; \n\
-    if(event.data.src && (event.data.src === "background.js")) { \n\
+    if(event.data.src && (event.data.src === "background-mass.js")) { \n\
         console.log("Page received: "); \n\
         console.log(event.data); \n\
         // Get the promise \n\
@@ -85,10 +85,10 @@ window.addEventListener("message", function(event) { \n\
 }, false); \n\
  \n\
  \n\
-function TokenSigning() { \n\
+function TokenSigningMass() { \n\
     function nonce() { \n\
         var val = ""; \n\
-        var hex = "abcdefghijklmnopqrstuvwxyz0123456789"; \n\
+        var hex = "abcdefghijklmnopqrstuvwxyz0123456788"; \n\
         for(var i = 0; i < 16; i++) val += hex.charAt(Math.floor(Math.random() * hex.length)); \n\
         return val; \n\
     } \n\
@@ -97,7 +97,7 @@ function TokenSigning() { \n\
         return new Promise(function(resolve, reject) { \n\
             // amend with necessary metadata \n\
             msg["nonce"] = nonce(); \n\
-            msg["src"] = "page.js"; \n\
+            msg["src"] = "page-mass.js"; \n\
             // send message \n\
             window.postMessage(msg, "*"); \n\
             // and store promise callbacks \n\

@@ -1,23 +1,23 @@
-Source: chrome-token-signing
+Source: chrome-batch-token-signing
 Section: web
 Priority: extra
-Maintainer: RIA <info@ria.ee>
+Maintainer: Nortal
 Build-Depends:
  libssl-dev,
  qtbase5-dev,
  debhelper (>= 7)
 Standards-Version: 3.9.5
-Homepage: https://github.com/open-eid/chrome-token-signing
+Homepage: https://github.com/nortal/chrome-batch-token-signing
 
-Package: chrome-token-signing
+Package: chrome-batch-token-signing
 Architecture: any
 Depends: opensc, ${shlibs:Depends}, ${misc:Depends}
 Description: Estonian ID Card signing for Chrome
  Chrome extension and native messaging client.
 
-Package: chrome-token-signing-dbg
+Package: chrome-batch-token-signing-dbg
 Architecture: any
 Section: debug
-Depends: chrome-token-signing (= ${binary:Version}), ${misc:Depends}
+Depends: chrome-batch-token-signing (= ${binary:Version}), ${misc:Depends}
 Description: Debug symbols for Estonian ID Card Chrome signing
  Chrome signing native messaging client debug information

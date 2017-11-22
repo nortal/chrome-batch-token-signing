@@ -22,8 +22,12 @@
 #include "CertificateSelection.h"
 #include "ContextMaintainer.h"
 #include "SignerFactory.h"
+#include "ProgressBar.h"
 
 using namespace std;
+
+bool cancelSigning = false;
+CProgressBarDialog* progressBarDlg = NULL;
 
 jsonxx::Object RequestHandler::handleRequest() {
 	try {
@@ -53,6 +57,14 @@ jsonxx::Object RequestHandler::handleRequest() {
 	catch (const BaseException &e) {
 		handleException(e);
 	}
+
+  if (progressBarDlg) {
+    if (progressBarDlg->IsWindow())
+      progressBarDlg->DestroyWindow();
+    delete progressBarDlg;
+    progressBarDlg = NULL;
+  }
+
 	completeResponse();
 	return jsonResponse;
 }
@@ -117,7 +129,7 @@ void RequestHandler::handleSignRequest() {
 	Signer * signer = SignerFactory::createSigner(jsonRequest);
 	_log("signing hash: %s, with certId: %s", signer->getHash()->c_str(), signer->getCertInHex()->c_str());
 	validateContext(*signer->getCertInHex());
-	jsonResponse << "signature" << signer->sign();
+  jsonResponse << "signature" << signer->sign();
 }
 
 void RequestHandler::handleException(const BaseException &e) {

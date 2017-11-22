@@ -1,9 +1,9 @@
 {
-    "name": "ee.ria.esteid",
+    "name": "ee.nortal.sign_mass",
     "description": "Give signatures with your eID on the web",
     "path": "/Library/Google/Chrome/NativeMessagingHosts/chrome-token-signing.app/Contents/MacOS/chrome-token-signing",
     "type": "stdio",
     "allowed_origins": [
-        "chrome-extension://ckjefchnfjhjfedoccjbhjpbncimppeg/"
+        "chrome-extension://fhflklnpgjhdjcnlnlnoeomfebmbjkkk/"
     ]
 }

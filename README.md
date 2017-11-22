@@ -1,6 +1,6 @@
 # Chrome Native Client plugin
 
-**Now available from [Chrome Web Store](https://chrome.google.com/webstore/detail/ckjefchnfjhjfedoccjbhjpbncimppeg)**
+**Now available from [Chrome Web Store](https://chrome.google.com/webstore/detail/fhflklnpgjhdjcnlnlnoeomfebmbjkkk)**
 
  * License: LGPL 2.1
  * &copy; Estonian Information System Authority

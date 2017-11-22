@@ -135,8 +135,8 @@
         dialog->nameLabel.stringValue = @((selected->getCardName() + ", " + selected->getPersonalCode()).c_str());
         if (retriesLeft < 3) {
             dialog->messageField.stringValue = [NSString stringWithFormat:@"%@%@ %u",
-                                                (isInitialCheck ? @"" : _L("incorrect PIN2")),
-                                                _L("tries left"),
+                                                (isInitialCheck ? @"" : _L("vale PIN2")),
+                                                _L("katset j‰‰nud"),
                                                 retriesLeft];
         }
         isInitialCheck = false;

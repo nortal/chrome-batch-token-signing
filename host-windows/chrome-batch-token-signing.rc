@@ -17,6 +17,8 @@
  */
 
 #include <winver.h>
+#include "resource.h"
+#include "../host-shared/versioninfo.h"
 
 #define VER_STR_HELPER(x)	#x
 #define VER_STR(x)		VER_STR_HELPER(x)
@@ -38,23 +40,23 @@ BEGIN
 	BEGIN
 		BLOCK "040904B0"
 		BEGIN
-			VALUE "CompanyName", "RIA"
+			VALUE "CompanyName", "Nortal"
 			VALUE "FileDescription", "Chrome Token Signing Native Host"
 			VALUE "FileVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
-			VALUE "InternalName", "chrome-token-signing"
+			VALUE "InternalName", "chrome-token-signing-mass"
 			VALUE "LegalCopyright", "Copyright (C) 2015 Estonian Information System Authority"
-			VALUE "OriginalFilename", "chrome-token-signing.exe"
+			VALUE "OriginalFilename", "chrome-token-signing-mass.exe"
 			VALUE "ProductName", "Chrome Token Signing Native Host"
 			VALUE "ProductVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
 		END
 		BLOCK "042504B0"
 		BEGIN
-			VALUE "CompanyName", "RIA"
+			VALUE "CompanyName", "Nortal"
 			VALUE "FileDescription", "Chrome Token Signing Native Host"
 			VALUE "FileVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
-			VALUE "InternalName", "chrome-token-signing"
+			VALUE "InternalName", "chrome-token-signing-mass"
 			VALUE "LegalCopyright", "Copyright (C) 2015 Riigi Infosüsteemi Amet"
-			VALUE "OriginalFilename", "chrome-token-signing.exe"
+			VALUE "OriginalFilename", "chrome-token-signing-mass.exe"
 			VALUE "ProductName", "Chrome Token Signing Native Host"
 			VALUE "ProductVersion", VER_STR(MAJOR_VER.MINOR_VER.RELEASE_VER.BUILD_VER)
 		END

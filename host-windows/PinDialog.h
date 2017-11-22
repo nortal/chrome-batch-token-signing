@@ -20,6 +20,7 @@
 
 #include "resource.h"
 #include "afxcmn.h"
+#include <string>
 
 class PinDialog : public CDialog
 {
@@ -36,6 +37,7 @@ public:
 
 protected:
 	DECLARE_MESSAGE_MAP()
+
 private:
 	char* pin;
 };

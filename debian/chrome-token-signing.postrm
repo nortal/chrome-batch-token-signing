@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
-rm -f /etc/opt/chrome/native-messaging-hosts/ee.ria.esteid.json
+rm -f /etc/opt/chrome/native-messaging-hosts/ee.nortal.sign_mass.json
 rmdir -p --ignore-fail-on-non-empty /etc/opt/chrome/native-messaging-hosts

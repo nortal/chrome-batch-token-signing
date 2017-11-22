@@ -20,7 +20,7 @@ var NO_NATIVE_URL = "https://open-eid.github.io/chrome-token-signing/missing.htm
 var HELLO_URL = "https://open-eid.github.io/chrome-token-signing/hello.html";
 var DEVELOPER_URL = "https://github.com/open-eid/chrome-token-signing/wiki/DeveloperTips";
 
-var NATIVE_HOST = "ee.ria.esteid";
+var NATIVE_HOST = "ee.nortal.sign_mass";
 
 var K_SRC = "src";
 var K_ORIGIN = "origin";
@@ -140,7 +140,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 // Send the message back to the originating tab
 function _reply(tab, msg) {
-	msg[K_SRC] = "background.js";
+	msg[K_SRC] = "background-mass.js";
 	msg[K_EXTENSION] = chrome.app.getDetails().version;
 	chrome.tabs.sendMessage(tab, msg);
 }

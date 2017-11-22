@@ -38,11 +38,17 @@ void initializeMFC() {
 }
 
 wstring getWrongPinErrorMessage(int triesLeft) {
-	wstring msg = L"An incorrect PIN was entered. You have ";
-	if (triesLeft == 1) {
-		return msg + L"1 retry left!";
-	}
-	return msg + to_wstring(triesLeft) + L" retries left!";
+  if (triesLeft > 0) {
+    wstring msg = L"Vale PIN. Sul on ";
+    if (triesLeft == 1) {
+      return msg + L"1 katse j‰‰nud!";
+    }
+    return msg + to_wstring(triesLeft) + L" katset j‰‰nud!";
+  }
+  else {
+    // Number of retries left should be read from the card...
+    return L"Sisestati vale PIN.";
+  }
 }
 
 char* DialogManager::getPin() {
@@ -67,5 +73,5 @@ void DialogManager::showWrongPinError(int triesLeft) {
 
 void DialogManager::showPinBlocked() {
 	_log("Showing pin blocked dialog");
-	MessageBox(NULL, L"You have entered wrong PIN for too many times. Your PIN is blocked.", L"PIN Blocked", MB_OK | MB_ICONERROR);
+	MessageBox(NULL, L"Vale PIN sisestati liiga palju kordi. PIN blokeeritud.", L"PIN blokeeritud!", MB_OK | MB_ICONERROR);
 }

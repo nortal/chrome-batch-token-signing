@@ -1,0 +1,9 @@
+{
+    "name": "ee.nortal.sign_mass",
+    "description": "Give signatures with your eID on the web",
+    "path": "/usr/bin/chrome-batch-token-signing",
+    "type": "stdio",
+    "allowed_origins": [
+        "chrome-extension://fhflklnpgjhdjcnlnlnoeomfebmbjkkk/"
+    ]
+}

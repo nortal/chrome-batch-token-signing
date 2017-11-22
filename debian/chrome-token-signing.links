@@ -1,5 +1,5 @@
-/usr/share/chrome-token-signing/ee.ria.esteid.json /etc/chromium/native-messaging-hosts/ee.ria.esteid.json
-/usr/share/chrome-token-signing/ee.ria.esteid.json /etc/chromium-browser/native-messaging-hosts/ee.ria.esteid.json
-/usr/share/chrome-token-signing/ckjefchnfjhjfedoccjbhjpbncimppeg.json /usr/share/chromium/extensions/ckjefchnfjhjfedoccjbhjpbncimppeg.json
-/usr/share/chrome-token-signing/ckjefchnfjhjfedoccjbhjpbncimppeg.json /usr/share/chromium-browser/extensions/ckjefchnfjhjfedoccjbhjpbncimppeg.json
-/usr/share/chrome-token-signing/ckjefchnfjhjfedoccjbhjpbncimppeg.json /usr/share/google-chrome/extensions/ckjefchnfjhjfedoccjbhjpbncimppeg.json
+/usr/share/chrome-batch-token-signing/ee.nortal.sign_mass.json /etc/chromium/native-messaging-hosts/ee.nortal.sign_mass.json
+/usr/share/chrome-batch-token-signing/ee.nortal.sign_mass.json /etc/chromium-browser/native-messaging-hosts/ee.nortal.sign_mass.json
+/usr/share/chrome-batch-token-signing/fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json /usr/share/chromium/extensions/fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json
+/usr/share/chrome-batch-token-signing/fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json /usr/share/chromium-browser/extensions/fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json
+/usr/share/chrome-batch-token-signing/fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json /usr/share/google-chrome/extensions/fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json

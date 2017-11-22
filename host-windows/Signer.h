@@ -34,15 +34,75 @@ public:
 	Signer(const string &_hash, const string &_certInHex) : hash(_hash), certInHex(_certInHex) {}
 	virtual string sign() = 0;
 	
+  // get the current hash
 	string * getHash() {
 		return &hash;
 	}
+
+  // set the current hash
+  void setHash(string _hash) {
+    hash = _hash;
+  }
+
+  // check if we have a hash
+  bool hasHash() {
+    return (hash != "");
+  }
 
 	string * getCertInHex() {
 		return &certInHex;
 	}
 
+  // set pin
+  void setPin(std::string _pin) {
+    pin = _pin;
+  }
+
+  // get pin
+  string& getPin() {
+    return pin;
+  }
+
+  // check if we have a pin
+  bool hasPin() {
+    return (pin != "");
+  }
+
+protected:
+  string getNextHash(std::string allHashes, int& position, char* separator=",")
+  {
+    std::string result("");
+    bool found = false;
+
+    // initialize search
+    const char* str = allHashes.c_str();
+    str += position;
+
+    // skip separator in the beginning of search
+    if (*str == *separator)
+    {
+      str++;
+      position++;
+    }
+
+    // store the current position (beginning of substring)
+    const char *begin = str;
+
+    // while separator not found and not at end of string..
+    while (*str != *separator && *str)
+    {
+      // ..go forward in the string.
+      str++;
+      position++;
+    }
+
+    // return what we've got, which is either empty string or a hash string
+    result = std::string(begin, str);
+    return result;
+  }
+
 private:
-	string hash;
+  string pin;
+  string hash;
 	string certInHex;
 };

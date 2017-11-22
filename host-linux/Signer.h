@@ -78,8 +78,8 @@ public:
             if (retriesLeft < 3) {
                 dialog.errorLabel->show();
                 dialog.errorLabel->setText(QString("<font color='red'><b>%1%2 %3</b></font>")
-                     .arg((!isInitialCheck ? Labels::l10n.get("incorrect PIN2") : "").c_str())
-                     .arg(Labels::l10n.get("tries left").c_str())
+                     .arg((!isInitialCheck ? Labels::l10n.get("vale PIN2") : "").c_str())
+                     .arg(Labels::l10n.get("katset j‰‰nud").c_str())
                      .arg(retriesLeft));
             }
             isInitialCheck = false;
