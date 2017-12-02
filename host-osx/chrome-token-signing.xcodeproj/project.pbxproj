@@ -260,7 +260,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p ${INSTALL_ROOT}/Library/Google/Chrome/NativeMessagingHosts \\\n    ${INSTALL_ROOT}/Library/Application\\ Support/Google/Chrome/External\\ Extensions/ \\\n    ${INSTALL_ROOT}/Library/Application\\ Support/Mozilla/NativeMessagingHosts/ \\\n    ${INSTALL_ROOT}/Library/Application\\ Support/Mozilla/Extensions/\\{ec8030f7-c20a-464f-9b0e-13a3a9e97384\\}\ncp ${SRCROOT}/ee.nortal.sign-mass.json ${INSTALL_ROOT}/Library/Google/Chrome/NativeMessagingHosts/\ncp ${SRCROOT}/ee.nortal.sign-mass.firefox.json ${INSTALL_ROOT}/Library/Application\\ Support/Mozilla/NativeMessagingHosts/ee.nortal.sign-mass.json\ncp ${SRCROOT}/../fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json ${INSTALL_ROOT}/Library/Application\\ Support/Google/Chrome/External\\ Extensions/\ncp ${SRCROOT}/../{443830f0-1fff-4f9a-aa1e-444bafbc7319}.xpi ${INSTALL_ROOT}/Library/Application\\ Support/Mozilla/Extensions/\\{ec8030f7-c20a-464f-9b0e-13a3a9e97384\\}";
+			shellScript = "mkdir -p ${INSTALL_ROOT}/Library/Google/Chrome/NativeMessagingHosts \\\n    ${INSTALL_ROOT}/Library/Application\\ Support/Google/Chrome/External\\ Extensions/ \\\n    ${INSTALL_ROOT}/Library/Application\\ Support/Mozilla/NativeMessagingHosts/ \\\n    ${INSTALL_ROOT}/Library/Application\\ Support/Mozilla/Extensions/\\{e0178cfd-2cfb-4f10-a53c-c71064f42bce\\}\ncp ${SRCROOT}/ee.nortal.sign-mass.json ${INSTALL_ROOT}/Library/Google/Chrome/NativeMessagingHosts/\ncp ${SRCROOT}/ee.nortal.sign-mass.firefox.json ${INSTALL_ROOT}/Library/Application\\ Support/Mozilla/NativeMessagingHosts/ee.nortal.sign-mass.json\ncp ${SRCROOT}/../fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json ${INSTALL_ROOT}/Library/Application\\ Support/Google/Chrome/External\\ Extensions/\ncp ${SRCROOT}/../{443830f0-1fff-4f9a-aa1e-444bafbc7319}.xpi ${INSTALL_ROOT}/Library/Application\\ Support/Mozilla/Extensions/\\{e0178cfd-2cfb-4f10-a53c-c71064f42bce\\}";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -367,7 +367,6 @@
 		4E532CFE1A96379500D28E40 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "chrome-token-signing-mass.entitlements";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = /Library/Google/Chrome/NativeMessagingHosts;
@@ -379,7 +378,6 @@
 		4E532CFF1A96379500D28E40 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "chrome-token-signing-mass.entitlements";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = /Library/Google/Chrome/NativeMessagingHosts;

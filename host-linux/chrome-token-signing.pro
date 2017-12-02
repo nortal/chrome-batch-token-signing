@@ -23,6 +23,6 @@ ffconf.path = /usr/lib/mozilla/native-messaging-hosts
 ffconf.files += ff/ee.nortal.sign_mass.json
 extension.path = /opt/google/chrome/extensions
 extension.files += ../fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json
-ffextension.path = /usr/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+ffextension.path = /usr/share/mozilla/extensions/{e0178cfd-2cfb-4f10-a53c-c71064f42bce}
 ffextension.files += ../{443830f0-1fff-4f9a-aa1e-444bafbc7319}.xpi
 INSTALLS += target hostconf ffconf extension ffextension

@@ -1,4 +1,4 @@
 version=3
-opts="filenamemangle=s/.+\/v?(\d\S+)\.tar\.gz/chrome-token-signing-$1\.tar\.gz/,\
+opts="filenamemangle=s/.+\/v?(\d\S+)\.tar\.gz/chrome-token-signing-batch-$1\.tar\.gz/,\
   uversionmangle=s/(\d)[_\.\-\+]?((RC|rc|pre|dev|beta|alpha)\d*)$/$1~$2/" \
-  https://github.com/open-eid/chrome-token-signing/tags .*/v(\d\S+)\.tar\.gz
+  https://github.com/nortal/chrome-batch-token-signing/tags .*/v(\d\S+)\.tar\.gz

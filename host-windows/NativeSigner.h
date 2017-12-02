@@ -18,11 +18,12 @@
 
 #pragma once
 
-#include <list>
 #include "Signer.h"
+#include "Windows.h"
 
 class NativeSigner : public Signer {
 public:
 	NativeSigner(const std::vector<unsigned char> &cert) : Signer(cert) {}
 	std::vector<unsigned char> sign(const std::vector<unsigned char> &digest) override;
+	NCRYPT_KEY_HANDLE getCertificatePrivateKey(const std::vector<unsigned char> &digest, BOOL* freeKeyHandle);
 };

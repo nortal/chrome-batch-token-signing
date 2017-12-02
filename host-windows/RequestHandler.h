@@ -18,9 +18,13 @@
 
 #pragma once
 
+#include "stdafx.h"
+
 #include "jsonxx.h"
 #include "HostExceptions.h"
 #include "ContextMaintainer.h"
+#include "Signer.h"
+#include <ncrypt.h>
 
 class RequestHandler {
 public:
@@ -42,5 +46,8 @@ private:
 	void validateContext(const std::string &signingCertificate);
 	void validateOrigin(const std::string &origin);
 	void completeResponse();
+
+	std::string askPin(Signer& signer, const std::vector<unsigned char>& hash);
+	bool checkPin(const std::vector<unsigned char>& digest, const std::vector<unsigned char>& cert, const std::string& pin);
 };
 

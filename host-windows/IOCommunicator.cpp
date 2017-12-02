@@ -24,6 +24,9 @@
 #include <io.h>
 #include <iostream>
 
+// The default limit of 8 kB is only enough for receiving ~75 hashes
+#define MESSAGE_LENGTH_LIMIT 1024 * 32
+
 IOCommunicator::IOCommunicator() {
 	//Necessary for sending correct message length to stout (in Windows)
 	_setmode(_fileno(stdin), O_BINARY);
@@ -33,7 +36,7 @@ IOCommunicator::IOCommunicator() {
 string IOCommunicator::readMessage() const {
 	uint32_t messageLength = 0;
 	cin.read((char*)&messageLength, sizeof(messageLength));
-	if (messageLength > 1024 * 8)
+	if (messageLength > MESSAGE_LENGTH_LIMIT)
 	{
 		throw InvalidArgumentException("Invalid message length " + to_string(messageLength));
 	}

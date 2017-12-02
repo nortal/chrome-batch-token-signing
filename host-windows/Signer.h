@@ -18,7 +18,11 @@
 
 #pragma once
 
+#include "stdafx.h"
+
 #include <string>
+#include <ncrypt.h>
+#include <WinCrypt.h>
 #include <vector>
 
 #define BINARY_SHA1_LENGTH 20
@@ -30,81 +34,27 @@
 class Signer {
 public:
 	virtual ~Signer() = default;
+	virtual NCRYPT_KEY_HANDLE getCertificatePrivateKey(const std::vector<unsigned char> &digest, BOOL* freeKeyHandle) { return NULL; }
 
 	static Signer* createSigner(const std::vector<unsigned char> &cert);
 	bool showInfo(const std::string &msg);
 	virtual std::vector<unsigned char> sign(const std::vector<unsigned char> &digest) = 0;
 
+	void setPin(std::string _pin) {
+		pin = _pin;
+	}
+
+	std::string& getPin() {
+		return pin;
+	}
+
+	bool hasPin() {
+		return (pin != "");
+	}
+
 protected:
 	Signer(const std::vector<unsigned char> &_cert) : cert(_cert) {}
 
-public:
-	std::vector<unsigned char>  getHash() const {
-		return hash;
-	}
-
-	// set the current hash
-	void setHash(std::vector<unsigned char> _hash) {
-    hash = _hash;
-  }
-
-  // check if we have a hash
-  bool hasHash() {
-    return (hash.size() != 0);
-  }
-
-  // set pin
-  void setPin(std::string _pin) {
-    pin = _pin;
-  }
-
-  // get pin
-  std::string& getPin() {
-    return pin;
-  }
-
-  // check if we have a pin
-  bool hasPin() {
-    return (pin != "");
-  }
-
-protected:
-  std::string getNextHash(std::string allHashes, int& position, char* separator=",")
-  {
-    std::string result("");
-    bool found = false;
-
-    // initialize search
-    const char* str = allHashes.c_str();
-    str += position;
-
-    // skip separator in the beginning of search
-    if (*str == *separator)
-    {
-      str++;
-      position++;
-    }
-
-    // store the current position (beginning of substring)
-    const char *begin = str;
-
-    // while separator not found and not at end of string..
-    while (*str != *separator && *str)
-    {
-      // ..go forward in the string.
-      str++;
-      position++;
-    }
-
-    // return what we've got, which is either empty string or a hash string
-    result = std::string(begin, str);
-    return result;
-  }
-
-private:
-  std::string pin;
-  std::vector<unsigned char> hash;
-
-protected:
 	std::vector<unsigned char> cert;
+	std::string pin;
 };
