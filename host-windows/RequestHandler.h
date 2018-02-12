@@ -21,7 +21,7 @@
 #include "stdafx.h"
 
 #include "jsonxx.h"
-#include "HostExceptions.h"
+#include "Exceptions.h"
 #include "ContextMaintainer.h"
 #include "Signer.h"
 #include <ncrypt.h>
