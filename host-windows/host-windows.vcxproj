@@ -108,7 +108,6 @@
     <ClInclude Include="PKCS11CertificateSelector.h" />
     <ClInclude Include="Pkcs11Signer.h" />
     <ClInclude Include="ProgressBar.h" />
-    <ClInclude Include="RequestHandler.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Signer.h" />
     <ClInclude Include="stdafx.h" />
@@ -129,7 +128,6 @@
     <ClCompile Include="PKCS11CertificateSelector.cpp" />
     <ClCompile Include="Pkcs11Signer.cpp" />
     <ClCompile Include="ProgressBar.cpp" />
-    <ClCompile Include="RequestHandler.cpp" />
     <ClCompile Include="Signer.cpp" />
   </ItemGroup>
   <ItemGroup>
