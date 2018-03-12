@@ -17,7 +17,6 @@
 */
 #pragma once
 
-#include "resource.h"
 #include <atlbase.h>
 #include <atlhost.h>
 #include <atlstr.h>
@@ -28,6 +27,10 @@
 using namespace ATL;
 
 #define WM_UPDATE_PROGRESS    (WM_USER + 0x0001)
+
+#define IDD_PROGRESSBARDLG              102
+#define IDC_PROGRESS_TEXT               1003
+#define IDC_PROGRESS_BAR                1005
 
 class CProgressBarDialog : 
   public CAxDialogImpl<CProgressBarDialog>

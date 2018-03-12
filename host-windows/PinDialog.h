@@ -18,40 +18,17 @@
 
 #pragma once
 
-#include "resource.h"
+#include "stdafx.h"
 #include <string>
 
-#include <afxcmn.h>
-#include <string>
-
-class PinDialog : public CDialog
+class PinDialog
 {
-	DECLARE_DYNAMIC(PinDialog)
-
 public:
-	PinDialog(const std::wstring &_label, CWnd* pParent = NULL) : CDialog(PinDialog::IDD, pParent), label(_label) {
-        HWND hCurWnd = ::GetForegroundWindow();
-        DWORD dwMyID = ::GetCurrentThreadId();
-        DWORD dwCurID = ::GetWindowThreadProcessId(hCurWnd, NULL);
-        ::AttachThreadInput(dwCurID, dwMyID, TRUE);
-        ::SetWindowPos(m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-        ::SetWindowPos(m_hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-        ::SetForegroundWindow(m_hWnd);
-        ::AttachThreadInput(dwCurID, dwMyID, FALSE);
-        ::SetFocus(m_hWnd);
-        ::SetActiveWindow(m_hWnd);
-    }
-	char* getPin();
-	afx_msg void OnBnClickedOk();
-
-	// Dialog Data
-	enum { IDD = IDD_PIN_DIALOG };
-
-protected:
-	DECLARE_MESSAGE_MAP()
-	virtual BOOL OnInitDialog() override;
+	static std::string getPin(const std::wstring &label, HWND pParent = NULL);
 
 private:
-	char* pin;
+	PinDialog() {}
+	static INT_PTR CALLBACK DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	std::wstring label;
+	std::string pin;
 };

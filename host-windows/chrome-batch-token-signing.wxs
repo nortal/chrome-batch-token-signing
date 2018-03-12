@@ -62,7 +62,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
           <Component Id="Application" Guid="DF8279AE-AFA9-4D1C-8C6E-B8E09B1DD2EB">
             <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC$(var.VCVER).CRT\msvcp$(var.VCVER).dll"/>
             <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC$(var.VCVER).CRT\$(var.VCRT)$(var.VCVER).dll"/>
-            <File Source="$(env.VCINSTALLDIR)\redist\x86\Microsoft.VC$(var.VCVER).MFC\mfc$(var.VCVER)u.dll"/>
             <File Source="host-windows/Release/chrome-batch-token-signing.exe"/>
             <File Source="host-windows/ee.nortal.sign_mass.json"/>
             <File Source="host-windows/ee.nortal.sign_mass.firefox.json"/>

@@ -17,7 +17,6 @@
  */
 
 #include <winver.h>
-#include "resource.h"
 #include "../host-shared/versioninfo.h"
 
 #define VER_STR_HELPER(x)	#x
