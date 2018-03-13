@@ -15,11 +15,12 @@ SOURCES += \
     chrome-host.cpp
 HEADERS += *.h ../host-shared/*.h
 RESOURCES += chrome-token-signing.qrc
+isEmpty(LIBPATH):LIBPATH=/usr/lib
 target.path = /usr/bin
 hostconf.path = /etc/opt/chrome/native-messaging-hosts
 hostconf.files += ee.nortal.sign_mass.json
 # https://bugzilla.mozilla.org/show_bug.cgi?id=1318461
-ffconf.path = /usr/lib/mozilla/native-messaging-hosts
+ffconf.path = $${LIBPATH}/mozilla/native-messaging-hosts
 ffconf.files += ff/ee.nortal.sign_mass.json
 extension.path = /opt/google/chrome/extensions
 extension.files += ../fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json
