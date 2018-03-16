@@ -1,9 +1,10 @@
 #!/bin/bash
 set -e
 
-mkdir -p /etc/opt/chrome/native-messaging-hosts
-
+mkdir -p /etc/opt/chrome/native-messaging-hosts /etc/opt/chrome/policies/managed
 ln -sf /usr/share/chrome-batch-token-signing/ee.nortal.sign-mass.json \
 	/etc/opt/chrome/native-messaging-hosts/ee.nortal.sign-mass.json
+ln -sf /usr/share/chrome-token-signing/ee.nortal.sign_mass.chrome-token-signing.policy.json \
+	/etc/opt/chrome/policies/managed/ee.nortal.sign_mass.chrome-token-signing.policy.json
 
 #DEBHELPER#

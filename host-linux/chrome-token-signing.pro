@@ -25,5 +25,6 @@ ffconf.files += ff/ee.nortal.sign_mass.json
 extension.path = /opt/google/chrome/extensions
 extension.files += ../fhflklnpgjhdjcnlnlnoeomfebmbjkkk.json
 ffextension.path = /usr/share/mozilla/extensions/{e0178cfd-2cfb-4f10-a53c-c71064f42bce}
-ffextension.files += ../{443830f0-1fff-4f9a-aa1e-444bafbc7319}.xpi
+extensionpol.path = /etc/opt/chrome/policies/managed
+extensionpol.files += ee.nortal.sign_mass.chrome-token-signing.policy.jsonffextension.files += ../{443830f0-1fff-4f9a-aa1e-444bafbc7319}.xpi
 INSTALLS += target hostconf ffconf extension ffextension
