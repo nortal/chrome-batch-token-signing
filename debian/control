@@ -16,8 +16,8 @@ Homepage: https://github.com/nortal/chrome-batch-token-signing
 Package: chrome-batch-token-signing
 Architecture: any
 Depends: opensc, ${shlibs:Depends}, ${misc:Depends}
-Description: Estonian ID Card signing for Chrome
- Chrome extension and native messaging client.
+Description: Estonian ID Card signing for Chrome and Firefox
+ Chrome and Firefox extension and native messaging client.
 
 Package: chrome-batch-token-signing-dbg
 Architecture: any
