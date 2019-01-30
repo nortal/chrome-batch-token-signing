@@ -35,7 +35,7 @@ $(TARGET): *.mm
 	$(PROJ) install DSTROOT=$(TMPROOT)
 
 codesign: $(TARGET)
-	codesign -f --entitlements chrome-token-signing-mass.entitlements -s "Developer ID Application: $(SIGNER)" "$(TARGET)"
+	codesign -f --entitlements chrome-token-signing-mass.entitlements --options=runtime -s "Developer ID Application: $(SIGNER)" "$(TARGET)"
 
 clean:
 	$(PROJ) clean
