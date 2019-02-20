@@ -42,7 +42,6 @@ INT_PTR CALLBACK SigningPinDialog::DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		SetDlgItemText(hwndDlg, IDC_MESSAGE, self->message.c_str());
 		SetDlgItemText(hwndDlg, IDC_LABEL, self->label.c_str());
 		SetDlgItemText(hwndDlg, IDCANCEL, Labels::l10n.get("cancel").c_str());
-		SetFocus(hwndDlg);
 		return TRUE;
 	}
 	case WM_COMMAND:

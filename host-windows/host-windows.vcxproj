@@ -58,7 +58,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>ncrypt.lib;crypt32.lib;cryptui.lib;winscard.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ncrypt.lib;crypt32.lib;cryptui.lib;winscard.lib;Shlwapi.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalManifestDependencies>type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'</AdditionalManifestDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -80,7 +80,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>ncrypt.lib;crypt32.lib;cryptui.lib;winscard.lib;Shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ncrypt.lib;crypt32.lib;cryptui.lib;winscard.lib;Shlwapi.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalManifestDependencies>type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'</AdditionalManifestDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -103,6 +103,7 @@
     <ClInclude Include="PKCS11CertificateSelector.h" />
     <ClInclude Include="Pkcs11Signer.h" />
     <ClInclude Include="ProgressBar.h" />
+    <ClInclude Include="ProgressBarResource.h" />
     <ClInclude Include="Signer.h" />
     <ClInclude Include="SigningPinDialog.h" />
     <ClInclude Include="stdafx.h" />
@@ -146,6 +147,7 @@
   <ItemGroup>
     <ResourceCompile Include="chrome-batch-token-signing.rc" />
     <ResourceCompile Include="PinDialog.rc" />
+    <ResourceCompile Include="ProgressBar.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\extension\icon128.png" />

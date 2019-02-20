@@ -22,6 +22,7 @@
 #include "HashListParser.h"
 #include "Labels.h"
 #include "Logger.h"
+#include "ProgressBar.h"
 #include "Signer.h"
 #include "SigningPinDialog.h"
 
@@ -143,48 +144,80 @@ vector<vector<unsigned char>> BatchSigner::sign(string hashesList, string info)
 	string pin = "";
 	vector<vector<unsigned char>> signatures;
 	time_t startTime;
+	ProgressBar* progressBar = 0;
 
 	time(&startTime);
 
-	vector<vector<unsigned char>>::iterator hash = hashes.begin();
-	while (hash != hashes.end()) {
-		hashIndex++;
-		_log("Signing hash %d of %d", hashIndex, hashes.size());
+	try
+	{
+		vector<vector<unsigned char>>::iterator hash = hashes.begin();
+		while (hash != hashes.end()) {
+			hashIndex++;
+			_log("Signing hash %d of %d", hashIndex, hashes.size());
 
-		unique_ptr<Signer> signer(Signer::createSigner(cert));
+			unique_ptr<Signer> signer(Signer::createSigner(cert));
 
-		if (hashIndex == 1)
-		{
-			if (!signer->showInfo(info))
+			if (hashIndex == 1)
+			{
+				if (!signer->showInfo(info))
+					throw UserCancelledException();
+
+				hashLength = hash->size();
+				pin = askPin(*signer, *hash);
+
+				if (hashes.size() > 2)
+				{
+					progressBar = new ProgressBar(hashes.size());
+				}
+			}
+			else if (hash->size() != hashLength)
+			{
+				_log("All hashes must have the same size for batch signing.");
+				throw InvalidHashException();
+			}
+
+			if (progressBar) {
+				if (progressBar->shouldCancel())
+				{
+					throw UserCancelledException();
+				}
+				progressBar->updateProgress();
+			}
+
+			_log("Setting PIN to signer...");
+			signer->setPin(pin);
+
+			vector<unsigned char> signature = signer->sign(*hash);
+
+			// Check if PIN was updated during signing
+			if (signer->getPin() != pin) {
+				pin = signer->getPin();
+			}
+
+			// append the signature to comma separated signature list
+			_log("Appending signature '%s'.", BinaryUtils::bin2hex(signature).c_str());
+			signatures.push_back(signature);
+
+			hash = next(hash);
+		}
+
+		_log("%d hashes signed in %d seconds.", hashes.size(), (int)difftime(time(NULL), startTime));
+
+		if (progressBar) {
+			if (progressBar->shouldCancel())
+			{
 				throw UserCancelledException();
-
-			hashLength = hash->size();
-			pin = askPin(*signer, *hash);
+			}
+			delete progressBar;
 		}
-		else if (hash->size() != hashLength)
-		{
-			_log("All hashes must have the same size for batch signing.");
-			throw InvalidHashException();
-		}
-
-		_log("Setting PIN to signer...");
-		signer->setPin(pin);
-
-		vector<unsigned char> signature = signer->sign(*hash);
-
-		// Check if PIN was updated during signing
-		if (signer->getPin() != pin) {
-			pin = signer->getPin();
-		}
-
-		// append the signature to comma separated signature list
-		_log("Appending signature '%s'.", BinaryUtils::bin2hex(signature).c_str());
-		signatures.push_back(signature);
-
-		hash = next(hash);
 	}
-
-	_log("%d hashes signed in %d seconds.", hashes.size(), (int)difftime(time(NULL), startTime));
+	catch (const BaseException &e)
+	{
+		if (progressBar) {
+			delete progressBar;
+		}
+		throw e;
+	}
 
 	return signatures;
 }

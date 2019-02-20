@@ -52,7 +52,7 @@ void sendMessage(const string &message)
 	_log("Response(%i) %s ", messageLength, message.c_str());
 	cout << message;
 }
-#include "ProgressBar.h"
+
 int main(int argc, char **argv)
 {
 	//Necessary for sending correct message length to stout (in Windows)

@@ -17,52 +17,26 @@
 */
 #pragma once
 
-#include <atlbase.h>
-#include <atlhost.h>
-#include <atlstr.h>
-#include <atlctl.h>
-#include <string>
-#include "Logger.h"
+#include <Windows.h>
 
-using namespace ATL;
-
-#define WM_UPDATE_PROGRESS    (WM_USER + 0x0001)
-
-#define IDD_PROGRESSBARDLG              102
-#define IDC_PROGRESS_TEXT               1003
-#define IDC_PROGRESS_BAR                1005
-
-class CProgressBarDialog : 
-  public CAxDialogImpl<CProgressBarDialog>
+class ProgressBar
 {
 private:
-  int m_numberOfItems;
-  int m_currentItem;
-  
+	int m_numberOfItems;
+	int m_currentItem;
+	volatile bool m_shouldCancel;
+	HANDLE m_initializedEvent;
+	HWND m_hwndDlg;
+
 public:
-  CProgressBarDialog(int numberOfItems) {
-    m_numberOfItems = numberOfItems;
-    m_currentItem = 0;
-  }
-  ~CProgressBarDialog(){}
+	ProgressBar(int numberOfItems);
+	~ProgressBar();
 
-  enum { IDD = IDD_PROGRESSBARDLG };
-
-  BEGIN_MSG_MAP(CProgressBarDialog)
-	  MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
-    MESSAGE_HANDLER(WM_UPDATE_PROGRESS, OnUpdateProgress)
-    COMMAND_HANDLER(IDCANCEL, BN_CLICKED, OnClickedCancel)
-    CHAIN_MSG_MAP(CAxDialogImpl<CProgressBarDialog>)
-  END_MSG_MAP()
-
-  LRESULT OnInitDialog(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-  LRESULT OnUpdateProgress(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
-  LRESULT OnClickedCancel(WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled);
+	void initializeDialogHandle(HWND hwndDlg);
+	void updateProgress();
+	bool shouldCancel();
 
 private:
-  void updateProgressBarMessage();
-  void updateProgressBar();
-
+	static DWORD WINAPI DialogThreadFunction(LPVOID lpParam);
+	static INT_PTR CALLBACK DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
-
-

@@ -81,6 +81,9 @@
     <ClInclude Include="BatchSigner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProgressBarResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\host-shared\BinaryUtils.cpp">
@@ -172,6 +175,9 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
     <ResourceCompile Include="PinDialog.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ProgressBar.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
