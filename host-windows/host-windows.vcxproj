@@ -93,6 +93,7 @@
     <ClInclude Include="..\host-shared\PKCS11CardManager.h" />
     <ClInclude Include="..\host-shared\PKCS11Path.h" />
     <ClInclude Include="..\host-shared\VersionInfo.h" />
+    <ClInclude Include="BatchSigner.h" />
     <ClInclude Include="CertificateSelector.h" />
     <ClInclude Include="HashListParser.h" />
     <ClInclude Include="NativeCertificateSelector.h" />
@@ -112,6 +113,7 @@
     <ClCompile Include="..\host-shared\Labels.cpp" />
     <ClCompile Include="..\host-shared\Logger.cpp" />
     <ClCompile Include="..\host-shared\PKCS11Path.cpp" />
+    <ClCompile Include="BatchSigner.cpp" />
     <ClCompile Include="CertificateSelector.cpp" />
     <ClCompile Include="chrome-batch-token-signing.cpp" />
     <ClCompile Include="HashListParser.cpp" />

@@ -63,13 +63,22 @@
     <ClInclude Include="..\host-shared\Labels.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\host-shared\Exceptions.h.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ProgressBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PinDialogResource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\host-shared\Exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HashListParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SigningPinDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BatchSigner.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -114,6 +123,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ProgressBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HashListParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SigningPinDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BatchSigner.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

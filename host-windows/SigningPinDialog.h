@@ -23,6 +23,8 @@
 
 #define PIN2_LENGTH 5
 
+// SigningPinDialog is equivalent to PinDialog, but allows 5-digit PIN2 codes to be entered
+// and focuses itself when shown.
 class SigningPinDialog
 {
 public:

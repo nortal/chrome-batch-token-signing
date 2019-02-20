@@ -16,15 +16,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "BatchSigner.h"
 #include "BinaryUtils.h"
 #include "CertificateSelector.h"
 #include "Exceptions.h"
-#include "HashListParser.h"
 #include "jsonxx.h"
 #include "Labels.h"
 #include "Logger.h"
 #include "Signer.h"
-#include "SigningPinDialog.h"
 #include "VersionInfo.h"
 
 #include <fcntl.h>
@@ -53,160 +52,7 @@ void sendMessage(const string &message)
 	_log("Response(%i) %s ", messageLength, message.c_str());
 	cout << message;
 }
-
-int setAndCheckPIN(string pin, NCRYPT_KEY_HANDLE key) {
-	/* Return values:
-	*   ERROR_SUCCESS         Valid PIN (or PIN not checked)
-	*   SCARD_W_WRONG_CHV     Wrong PIN.
-	*   SCARD_W_CHV_BLOCKED   Card is blocked.
-	*   Other                 Other error (should be handled as fatal).
-	*/
-	int status;
-	if (key) {
-		// convert the PIN to Unicode
-		WCHAR Pin[PIN2_LENGTH + 1] = { 0 };
-
-		MultiByteToWideChar(CP_ACP, 0, pin.c_str(), -1, (LPWSTR)Pin, PIN2_LENGTH + 1);
-
-		status = NCryptSetProperty(key, NCRYPT_PIN_PROPERTY, (PBYTE)Pin, (ULONG)wcslen(Pin) * sizeof(WCHAR), 0);
-
-		// check the result
-		if (status == SCARD_W_WRONG_CHV) {
-			// 0x8010006b: wrong pin
-			_log("**** Error 0x%x returned by NCryptSetProperty(NCRYPT_PIN_PROPERTY): Wrong PIN.\n", status);
-		}
-		else if (status == SCARD_W_CHV_BLOCKED) {
-			// 0x8010006c: card is blocked
-			_log("**** Error 0x%x returned by NCryptSetProperty(NCRYPT_PIN_PROPERTY): Card blocked.\n", status);
-		}
-		else if (status != ERROR_SUCCESS)
-		{
-			// other error
-			_log("**** Error 0x%x returned by NCryptSetProperty(NCRYPT_PIN_PROPERTY).\n", status);
-		}
-		else
-		{
-			_log("Successfully set NCRYPT_PIN_PROPERTY.", status);
-		}
-	}
-	else {
-		_log("PIN not checked, signing may ask PIN with the default dialog.");
-		status = ERROR_SUCCESS;
-	}
-	return status;
-}
-
-string askPin(Signer& signer, const vector<unsigned char>& hash) {
-	_log("Showing pin entry dialog");
-
-	wstring label = Labels::l10n.get("sign PIN");
-	size_t start_pos = 0;
-	while ((start_pos = label.find(L"@PIN@", start_pos)) != std::string::npos) {
-		label.replace(start_pos, 5, L"PIN");
-		start_pos += 3;
-	}
-
-	bool isInitialCheck = true;
-	int attemptsRemaining = 3;
-	do {
-		wstring msg;
-		if (attemptsRemaining < 3)
-		{
-			if (!isInitialCheck)
-				msg = Labels::l10n.get("incorrect PIN2");
-			msg += Labels::l10n.get("tries left") + L" " + to_wstring(attemptsRemaining);
-		}
-
-		string pin = SigningPinDialog::getPin(label, msg);
-		if (pin.empty()) {
-			_log("User cancelled");
-			throw UserCancelledException();
-		}
-
-		signer.setPin(pin);
-
-		BOOL freeKeyHandle = false;
-		NCRYPT_KEY_HANDLE key = signer.getCertificatePrivateKey(hash, &freeKeyHandle);
-		int status = setAndCheckPIN(pin, key);
-		if (freeKeyHandle) NCryptFreeObject(key);
-
-		if (status == ERROR_SUCCESS) {
-			return pin;
-		}
-
-		if (status == SCARD_W_WRONG_CHV) {
-			_log("Wrong PIN2");
-			attemptsRemaining--;
-			isInitialCheck = false;
-			continue;
-		}
-		if (status == SCARD_W_CHV_BLOCKED) {
-			MessageBox(nullptr, Labels::l10n.get("PIN2 blocked").c_str(), L"PIN Blocked", MB_OK | MB_ICONERROR);
-			_log("PIN2 blocked");
-			throw PinBlockedException();
-		}
-		if (status == SCARD_W_CANCELLED_BY_USER) {
-			_log("User cancelled");
-			throw UserCancelledException();
-		}
-		throw TechnicalException("Signing failed: PIN/card error.");
-	} while (true);
-}
-
-void massSign(vector<unsigned char>& selectedCert, jsonxx::Object& jsonRequest, jsonxx::Object& jsonResponse)
-{
-	if (!jsonRequest.has<string>("cert") || !jsonRequest.has<string>("hash"))
-		throw InvalidArgumentException();
-
-	vector<unsigned char> cert = BinaryUtils::hex2bin(jsonRequest.get<string>("cert"));
-	_log("signing with certId: %s", jsonRequest.get<string>("cert").c_str());
-	if (cert != selectedCert)
-		throw NotSelectedCertificateException();
-
-	string hashesList = jsonRequest.get<string>("hash");
-	vector<vector<unsigned char>> hashes = HashListParser::parse(hashesList);
-
-	int hashIndex = 0;
-	size_t hashLength = 0;
-	string pin = "";
-	string signatures;
-
-	vector<vector<unsigned char>>::iterator hash = hashes.begin();
-	while (hash != hashes.end()) {
-		hashIndex++;
-		_log("Signing hash %d of %d", hashIndex, hashes.size());
-
-		unique_ptr<Signer> signer(Signer::createSigner(cert));
-
-		if (!signer->showInfo(jsonRequest.get<string>("info", string())))
-			throw UserCancelledException();
-
-		if (hashIndex == 1)
-		{
-			hashLength = hash->size();
-			pin = askPin(*signer, *hash);
-		}
-		else if (hash->size() != hashLength)
-		{
-			_log("All hashes must have the same size for mass signing.");
-			throw InvalidHashException();
-		}
-
-		_log("Setting PIN to signer...");
-		signer->setPin(pin);
-
-		string signature = BinaryUtils::bin2hex(signer->sign(*hash));
-
-		// append the signature to comma separated signature list
-		_log("Appending signature '%s'.", signature.c_str());
-		signatures += (signatures.length() ? "," + signature : signature);
-
-		hash = next(hash);
-	}
-
-	jsonResponse << "signature" << signatures;
-}
-
+#include "ProgressBar.h"
 int main(int argc, char **argv)
 {
 	//Necessary for sending correct message length to stout (in Windows)
@@ -244,7 +90,28 @@ int main(int argc, char **argv)
 			}
 			else if (type == "SIGN")
 			{
-				massSign(selectedCert, jsonRequest, jsonResponse);
+				if (!jsonRequest.has<string>("cert") || !jsonRequest.has<string>("hash"))
+					throw InvalidArgumentException();
+
+				vector<unsigned char> cert = BinaryUtils::hex2bin(jsonRequest.get<string>("cert"));
+				_log("signing with certId: %s", jsonRequest.get<string>("cert").c_str());
+				if (cert != selectedCert)
+					throw NotSelectedCertificateException();
+
+				BatchSigner batchSigner(cert);
+				
+				string hashesList = jsonRequest.get<string>("hash");
+				string info = jsonRequest.get<string>("info", string());
+				vector<vector<unsigned char>> signatures = batchSigner.sign(hashesList, info);
+
+				string signaturesHex;
+				vector<vector<unsigned char>>::iterator signature = signatures.begin();
+				while (signature != signatures.end()) {
+					string signatureHex = BinaryUtils::bin2hex(*signature);
+					signaturesHex += (signaturesHex.length() ? "," + signatureHex : signatureHex);
+					signature = next(signature);
+				}
+				jsonResponse << "signature" << signaturesHex;
 			}
 			else
 				throw InvalidArgumentException();
