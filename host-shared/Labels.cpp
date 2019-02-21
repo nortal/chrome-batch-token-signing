@@ -164,14 +164,14 @@ Labels::lstring Labels::get(const std::string &labelKey) const {
         T("Pasirinkdama(s) sertifikatą, aš sutinku, kad mano vardas, pavardė ir asmens kodas būtų perduoti e. paslaugos teikėjui."),
         T("Izvēloties sertifikātu, es apstiprinu, ka mans vārds un personas kods tiks nosūtīts pakalpojuma sniedzējam."),
     } },
-        { "mass signing", {
+        { "batch signing", {
         T("Massallkirjastamine"),
-        T("Mass signing"),
-        T("Mass signing"),
-        T("Mass signing"),
-        T("Mass signing"),
+        T("Batch signing"),
+        T("Batch signing"),
+        T("Batch signing"),
+        T("Batch signing"),
     } },
-    { "mass sign create", {
+    { "batch sign create", {
         T("Allkirja koostamine: %d / %d"),
         T("Creating signature %d of %d"),
         T("Creating signature %d of %d"),

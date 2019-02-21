@@ -24,5 +24,5 @@ private:
 public:
 	BatchSigner(const std::vector<unsigned char> &cert);
 
-	std::vector<std::vector<unsigned char>> sign(std::string digest, std::string info);
+	std::vector<std::vector<unsigned char>> sign(std::string hashList, std::string info);
 };

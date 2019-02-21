@@ -135,9 +135,9 @@ string askPin(Signer& signer, const vector<unsigned char>& hash) {
 	} while (true);
 }
 
-vector<vector<unsigned char>> BatchSigner::sign(string hashesList, string info)
+vector<vector<unsigned char>> BatchSigner::sign(string hashList, string info)
 {
-	vector<vector<unsigned char>> hashes = HashListParser::parse(hashesList);
+	vector<vector<unsigned char>> hashes = HashListParser::parse(hashList);
 
 	int hashIndex = 0;
 	size_t hashLength = 0;
@@ -214,7 +214,14 @@ vector<vector<unsigned char>> BatchSigner::sign(string hashesList, string info)
 	catch (const BaseException &e)
 	{
 		if (progressBar) {
+			bool shouldCancel = progressBar->shouldCancel();
 			delete progressBar;
+			
+			// Override any other error if user cancelled
+			if (shouldCancel)
+			{
+				throw UserCancelledException();
+			}
 		}
 		throw e;
 	}
