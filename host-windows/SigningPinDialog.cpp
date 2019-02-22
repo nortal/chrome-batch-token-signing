@@ -68,6 +68,15 @@ INT_PTR CALLBACK SigningPinDialog::DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 			return EndDialog(hwndDlg, IDCANCEL);
 		}
 		return FALSE;
+	case WM_CTLCOLORSTATIC:
+		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_MESSAGE))
+		{
+			SetTextColor((HDC)wParam, RGB(255, 0, 0));
+			SetBkMode((HDC)wParam, TRANSPARENT);
+			SigningPinDialog* self = (SigningPinDialog*)lParam;
+			return (INT_PTR)GetSysColorBrush(CTLCOLOR_DLG);
+		}
+		return FALSE;
 	}
 	return FALSE;
 }

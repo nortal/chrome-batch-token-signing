@@ -17,7 +17,7 @@
 */
 
 #include "Pkcs11Signer.h"
-#include "PinDialog.h"
+#include "SigningPinDialog.h"
 #include "PKCS11CardManager.h"
 #include "Labels.h"
 #include "Logger.h"
@@ -82,10 +82,16 @@ vector<unsigned char> Pkcs11Signer::sign(const vector<unsigned char> &digest)
 			}
 			if (!isInitialCheck || pin.empty()) {
 				_log("Showing pin entry dialog");
-				std::string pin = PinDialog::getPin(label, msg);
+				if (progressBar) {
+					progressBar->hide();
+				}
+				pin = SigningPinDialog::getPin(label, msg);
 				if (pin.empty()) {
 					_log("User cancelled");
 					throw UserCancelledException();
+				}
+				if (progressBar) {
+					progressBar->show();
 				}
 			}
 			return pkcs11.sign(selected, digest, pin.c_str());
