@@ -98,7 +98,7 @@ vector<unsigned char> Pkcs11Signer::sign(const vector<unsigned char> &digest)
 				if (progressBar) {
 					progressBar->hide();
 				}
-				pin = SigningPinDialog::getPin(label, msg);
+				pin = SigningPinDialog::getPin(label, msg, L"");
 				if (pin.empty()) {
 					_log("User cancelled");
 					throw UserCancelledException();

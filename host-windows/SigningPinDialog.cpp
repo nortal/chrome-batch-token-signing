@@ -21,11 +21,12 @@
 #include "Labels.h"
 #include "PinDialogResource.h"
 
-std::string SigningPinDialog::getPin(const std::wstring &label, const std::wstring &message, HWND pParent)
+std::string SigningPinDialog::getPin(const std::wstring &label, const std::wstring &message, const std::wstring &title, HWND pParent)
 {
 	SigningPinDialog p;
 	p.label = label;
 	p.message = message;
+	p.title = title;
 	if (DialogBoxParam(NULL, MAKEINTRESOURCE(IDD_PIN_DIALOG), pParent, DlgProc, LPARAM(&p)) != IDOK)
 		p.pin.clear();
 	return p.pin;
@@ -39,6 +40,7 @@ INT_PTR CALLBACK SigningPinDialog::DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 	{
 		SigningPinDialog *self = (SigningPinDialog*)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		SetWindowText(hwndDlg, self->title.c_str());
 		SetDlgItemText(hwndDlg, IDC_MESSAGE, self->message.c_str());
 		SetDlgItemText(hwndDlg, IDC_LABEL, self->label.c_str());
 		SetDlgItemText(hwndDlg, IDCANCEL, Labels::l10n.get("cancel").c_str());

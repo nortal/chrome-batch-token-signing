@@ -99,7 +99,7 @@ string askPin(Signer& signer, const vector<unsigned char>& hash) {
 			msg += Labels::l10n.get("tries left") + L" " + to_wstring(attemptsRemaining);
 		}
 
-		string pin = SigningPinDialog::getPin(label, msg);
+		string pin = SigningPinDialog::getPin(label, msg, Labels::l10n.get("batch signing"));
 		if (pin.empty()) {
 			_log("User cancelled");
 			throw UserCancelledException();
