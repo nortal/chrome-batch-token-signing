@@ -67,7 +67,7 @@ std::vector<std::string> PKCS11Path::atrList() {
     std::vector<SCARD_READERSTATE> list;
     for (const char *name = readers.c_str(); *name; name += strlen(name) + 1) {
         _log("found reader: %s", name);
-        list.push_back({name, 0, 0, 0, 0, 0});
+        list.push_back({ name, nullptr, 0, 0, 0, {} });
     }
 
     err = SCardGetStatusChange(hContext, 0, list.data(), DWORD(list.size()));
@@ -90,7 +90,7 @@ std::vector<std::string> PKCS11Path::atrList() {
 PKCS11Path::Params PKCS11Path::getPkcs11ModulePath(bool isBatchSigning) {
 #ifdef _WIN32
     PWSTR programFilesX86 = 0;
-    SHGetKnownFolderPath(FOLDERID_ProgramFilesX86, 0, NULL, &programFilesX86);
+    SHGetKnownFolderPath(FOLDERID_ProgramFilesX86, 0, nullptr, &programFilesX86);
     std::wstring programFilesPath = programFilesX86;
     CoTaskMemFree(programFilesX86);
 
@@ -133,7 +133,7 @@ PKCS11Path::Params PKCS11Path::getPkcs11ModulePath(bool isBatchSigning) {
     static const std::string lit2Path("pwpw-card-pkcs11.so");
     static const std::string litPath = access(lit1Path.c_str(), F_OK) == 0 ? lit1Path : lit2Path;
     static const std::string belPath("libbeidpkcs11.so.0");
-    static const std::string eTokenPath("/usr/local/lib/libeTPkcs11.dylib");
+    static const std::string eTokenPath("/usr/local/lib/libeTPkcs11.so");
     static const std::string ocsPath("/usr/local/AWP/lib/libOcsCryptoki.so");
 #endif
     std::map<std::string, Params> m = {
