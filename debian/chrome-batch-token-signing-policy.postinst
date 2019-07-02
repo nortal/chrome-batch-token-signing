@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+mkdir -p /etc/opt/chrome/policies/managed
+ln -sf /usr/share/chrome-batch-token-signing/ee.nortal.sign_mass.chrome-batch-token-signing.policy.jsonn \
+	/etc/opt/chrome/policies/managed/ee.nortal.sign_mass.chrome-batch-token-signing.policy.json
+
+#DEBHELPER#

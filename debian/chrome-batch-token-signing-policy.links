@@ -1,0 +1,2 @@
+/usr/share/chrome-batch-token-signing/ee.ria.chrome-batch-token-signing.policy.json /etc/chromium/policies/managed/ee.nortal.sign_mass.chrome-batch-token-signing.policy.json
+/usr/share/chrome-batch-token-signing/ee.ria.chrome-batch-token-signing.policy.json /etc/chromium-browser/policies/managed/ee.nortal.sign_mass.chrome-batch-token-signing.policy.json

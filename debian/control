@@ -24,3 +24,9 @@ Section: debug
 Depends: chrome-batch-token-signing (= ${binary:Version}), ${misc:Depends}
 Description: Debug symbols for Estonian ID Card Chrome signing
  Chrome signing native messaging client debug information
+
+Package: chrome-batch-token-signing-policy
+Architecture: all
+Depends: chrome-batch-token-signing, ${shlibs:Depends}, ${misc:Depends}
+Description: Estonian ID Card signing for Chrome and Firefox
+ Chrome and Firefox extension and native messaging client.
